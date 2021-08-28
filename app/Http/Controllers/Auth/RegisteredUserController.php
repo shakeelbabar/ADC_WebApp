@@ -37,6 +37,7 @@ class RegisteredUserController extends Controller
         $request->validate([
             'name' => 'required|string',
             'email' => 'required|string',
+            'reg_id'=> 'required|string',
             'role_id' => 'required|string',
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
@@ -45,7 +46,8 @@ class RegisteredUserController extends Controller
         // print_r($request->name);
         
         $user = new User;
-        $user->reg_id = $request->name;
+        $user->name = $request->name;
+        $user->reg_id = $request->reg_id;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
         

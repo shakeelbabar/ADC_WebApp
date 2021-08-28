@@ -21,10 +21,13 @@ Route::get('/', function () {
 });
 
 Route::get('home', function(){
-    return view('admin.home');
+    return view('dashboards.admin');
 });
 
+Route::get('registerations', [DashboardController::class, 'registerations']);
+
 Route::get('dashboard', [DashboardController::class, 'index'])->middleware(['auth'])->name('dashboard');
+Route::get('new_case', [DashboardController::class, 'newCase'])->middleware(['auth'])->name('new_case');
 
 // Route::post('/register', [RegisteredUserController::class, 'store'])->name('register');
 

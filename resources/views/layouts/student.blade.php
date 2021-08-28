@@ -49,7 +49,7 @@
       <!-- Notifications Dropdown Menu -->
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
-          <b><span id="user-logged" class="mr-2">Admin</span></b>
+          <b><span id="user-logged" class="mr-2"><?php echo Auth::user()->reg_id ?></span></b>
           <i class="far fa-user"></i>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
@@ -89,7 +89,7 @@
           <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block" id="user-logged-sidebar">Admin Pierce</a>
+          <a href="#" class="d-block" id="user-logged-sidebar"><?php echo Auth::user()->name ?></a>
         </div>
       </div>
 
@@ -99,15 +99,25 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-            <a href="pages/widgets.html" class="nav-link active">
-              <i class="nav-icon fas fa-th"></i>
+            <a href="{{ route('dashboard') }}" class="nav-link <?php if ($page=='dashboard') echo 'active' ?>">
+              <i class="nav-icon fas fa-th-list"></i>
               <p>
-                Widgets
+                Applications
                 <!-- <span class="right badge badge-danger">New</span> -->
               </p>
             </a>
           </li>
 
+          <li class="nav-item">
+            <a href="{{ route('new_case') }}" class="nav-link <?php if ($page=='new_case') echo 'active' ?>">
+              <i class="nav-icon fas fa-plus"></i>
+              <p>
+                New Application
+                <!-- <span class="right badge badge-danger">New</span> -->
+              </p>
+            </a>
+          </li>
+          
           <li class="nav-header">EXAMPLES</li>
           <li class="nav-item">
             <a href="pages/calendar.html" class="nav-link">
@@ -184,6 +194,20 @@
 </div>
 <!-- ./wrapper -->
 
+
+<!-- Local / Custom JS -->
+<!-- <script src="dist/js/custom.js" type="text/javascript">
+const currentLocation = location.href;
+const menuItem = document.querySelectorAll('.nav-link');
+const menuLength = menuItem.length;
+for (let i = 0; i<10; i++){
+    console.log('HERE');
+    if(menuItem[i].href === currentLocation){
+        menuItem.class;
+    }
+}
+</script> -->
+
 <!-- jQuery -->
 <script src="plugins/jquery/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
@@ -198,9 +222,9 @@
 <script src="plugins/chart.js/Chart.min.js"></script>
 <!-- Sparkline -->
 <script src="plugins/sparklines/sparkline.js"></script>
-<!-- JQVMap -->
+<!-- JQVMap
 <script src="plugins/jqvmap/jquery.vmap.min.js"></script>
-<script src="plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
+<script src="plugins/jqvmap/maps/jquery.vmap.usa.js"></script> -->
 <!-- jQuery Knob Chart -->
 <script src="plugins/jquery-knob/jquery.knob.min.js"></script>
 <!-- daterangepicker -->

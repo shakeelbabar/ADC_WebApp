@@ -1,4 +1,5 @@
-@extends('admin.layout')
+<?php $page = 'new_case' ?>
+@extends('layouts.student')
 
 @section('content')
     <!-- Content Header (Page header) -->
@@ -86,10 +87,70 @@
           <!-- ./col -->
         </div>
         <!-- /.row -->
-        <!-- Main row -->
+
+        <!-- New Application Button Row -->
+        <div class="row mb-3 mt-2">
+          <div class="col-sm-9">
+            <h3 class="m-0"></h3>
+          </div><!-- /.col -->
+          <div class="col-sm-3">
+            <a href="{{ route('new_case') }}" type="button" class="btn btn-block bg-gradient-primary"><i class="fas fa-plus mr-2"></i>Add New Application</a>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+
+
+        <!-- Table row -->
         <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Recent Applications</h3>
+
+                <div class="card-tools">
+                  <div class="input-group input-group-sm" style="width: 150px;">
+                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                    <div class="input-group-append">
+                      <button type="submit" class="btn btn-default">
+                        <i class="fas fa-search"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body table-responsive p-0">
+                <table class="table table-hover text-nowrap">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Application ID</th>
+                      <th>Case</th>
+                      <th>Date</th>
+                      <th>Status</th>
+                      <th>Remarks</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php for($i=0; $i<10; $i++){ ?>
+                    <tr>
+                      <td><?php echo $i+1 ?></td>
+                      <td>1834343</td>
+                      <td>Withdrawal</td>
+                      <td>11-7-2014</td>
+                      <td><span class="tag tag-success">Approved</span></td>
+                      <td>Bacon ipsum dolor sit amet salami  venison chicken flank fatback doner.</td>
+                    </tr>
+                    <?php } ?>
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
         </div>
-        <!-- /.row (main row) -->
+        <!-- /.row -->        <!-- /.row (main row) -->
       </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->

@@ -1,4 +1,4 @@
-@extends('student.layout')
+@extends('layouts.secretary')
 
 @section('content')
     <!-- Content Header (Page header) -->

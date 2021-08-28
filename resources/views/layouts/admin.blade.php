@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -50,7 +49,7 @@
       <!-- Notifications Dropdown Menu -->
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
-          <b><span id="user-reg_id" class="mr-2"><?php echo (Auth::user()->reg_id) ?></span></b>
+          <b><span id="user-logged" class="mr-2"><?php echo Auth::user()->reg_id ?></span></b>
           <i class="far fa-user"></i>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
@@ -90,7 +89,7 @@
           <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block" id="user-logged-sidebar">Student Alexander</a>
+          <a href="#" class="d-block" id="user-logged-sidebar"><?php echo Auth::user()->name ?></a>
         </div>
       </div>
 

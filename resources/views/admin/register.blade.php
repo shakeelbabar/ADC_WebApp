@@ -34,6 +34,14 @@
           </div>
         </div>
         <div class="input-group mb-3">
+          <input id="reg_id" name="reg_id" type="text" class="form-control" placeholder="Registeration ID" :value="old('reg_id')">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-id-badge"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
           <input id="email" name="email" type="email" class="form-control" placeholder="Email" :value="old('email')">
           <div class="input-group-append">
             <div class="input-group-text">

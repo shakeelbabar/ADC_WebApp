@@ -24,7 +24,7 @@ class AuthenticatedSessionController extends Controller
     }
 
     public function login(LoginRequest $request){
-        
+        // $2y$10$iBtCCrSQNHdTbxLQyaJlDuU4/aNLRb3pogk.rrTwHfpIJbiXC0WHa
     }
 
     /**
