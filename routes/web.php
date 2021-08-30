@@ -37,10 +37,12 @@ Route::group(['middleware', ['auth']], function(){
 
 // Only for students
 Route::group(['middleware' => ['auth', 'role:student']], function(){
-    Route::get('withdrawal_case', [CaseRegistrationController::class, 'withdrawalCase'])->name('withdrawal_case');
-    Route::get('attendance_case', [CaseRegistrationController::class, 'attendanceCase'])->name('attendance_case');
-    Route::get('makeupexam_case', [CaseRegistrationController::class, 'makeupExamCase'])->name('makeupexam_case');
-    Route::get('new_case', [CaseRegistrationController::class, 'newCase'])->name('new_case');
+    Route::get('withdrawal-case', [CaseRegistrationController::class, 'withdrawalCase'])->name('withdrawal_case');
+    Route::get('attendance-case', [CaseRegistrationController::class, 'attendanceCase'])->name('attendance_case');
+    Route::get('makeupexam-case', [CaseRegistrationController::class, 'makeupExamCase'])->name('makeupexam_case');
+    Route::get('new-case', [CaseRegistrationController::class, 'newCase'])->name('new_case');
+    Route::get('submit-case', [CaseRegistrationController::class, 'confirmWithdrawalCase'])->name('confirm_withdrawal_case');
+    Route::post('confirm-submit', [CaseRegistrationController::class, 'submitWithdrawalCase'])->name('submit_withdrawal_case');
 });
 
 

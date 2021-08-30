@@ -1,5 +1,4 @@
 <?php $page = 'attendance' ?>
-<?php use App\Http\Controllers\CaseRegistrationController ?>
 @extends('layouts.student')
 
 @section('content')
@@ -27,8 +26,7 @@
         
       <div class="card">
         <div class="card-header">
-          <h3 class="card-title">Attendance Case Submission</h3><br>
-          <p class="card-description mb-0">Attendance exceeding 7 of any registered course will be submitted for further proceedings.</p>
+          <h3 class="card-title">Attendance Case Submission</h3>
         </div>
         <!-- /.card-header -->
         <div class="card-body">
@@ -45,7 +43,7 @@
               </tr>
             </thead>
             <tbody>
-              <?php $c=0; foreach (CaseRegistrationController::getRegisteredCourses() as $user){ if($user->absents>7){ ?>
+              <?php $c=0; foreach ($users as $user){ if($user->absents>7){ ?>
               <tr>
                 <td><?php echo ++$c ?></td>
                 <td><?php echo $user->name ?></td>
@@ -59,6 +57,7 @@
             </tbody>
           </table>
         </div>
+        <p class="card-description ml-4"><strong>Note:</strong> Attendance exceeding 7 of any registered course will be submitted for further proceedings.</p>
         <!-- /.card-body -->
         <div class="card-footer clearfix">
           <ul class="pagination pagination-sm m-0 float-right">

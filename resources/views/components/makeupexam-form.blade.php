@@ -1,5 +1,4 @@
 <?php $page = 'makeupexam' ?>
-<?php use App\Http\Controllers\CaseRegistrationController ?>
 @extends('layouts.student')
 
 @section('content')
@@ -44,7 +43,7 @@
               </tr>
             </thead>
             <tbody>
-              <?php $c=0; foreach (CaseRegistrationController::getRegisteredCourses() as $user){ ?>
+              <?php $c=0; foreach ($users as $user){ ?>
               <tr>
                 <td><?php echo ++$c ?></td>
                 <td><?php echo $user->name ?></td>

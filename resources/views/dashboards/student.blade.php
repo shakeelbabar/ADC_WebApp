@@ -25,13 +25,17 @@
       <div class="container-fluid">
         <!-- Small boxes (Stat box) -->
         <div class="row">
-          <div class="col-lg-3 col-6">
+
+        <div class="col-lg-4 col-6">
             <!-- small box -->
             <div class="small-box bg-info">
               <div class="inner">
-                <h3>150</h3>
+                <h3>12</h3>
 
-                <p>New Orders</p>
+                <p><strong>Active</strong></p>
+                <span>1 Withdrawal</span><br>
+                <span>1 Attendance</span><br>
+                <span>0 MakeUp Paper</span>
               </div>
               <div class="icon">
                 <i class="ion ion-bag"></i>
@@ -40,13 +44,15 @@
             </div>
           </div>
           <!-- ./col -->
+
+          <!--
           <div class="col-lg-3 col-6">
-            <!-- small box -->
+            small box  // comment this     
             <div class="small-box bg-success">
               <div class="inner">
                 <h3>53<sup style="font-size: 20px">%</sup></h3>
 
-                <p>Bounce Rate</p>
+                <p>Completed</p>
               </div>
               <div class="icon">
                 <i class="ion ion-stats-bars"></i>
@@ -54,14 +60,19 @@
               <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
-          <!-- ./col -->
-          <div class="col-lg-3 col-6">
+          ./col // comment this
+          -->
+
+          <div class="col-lg-4 col-6">
             <!-- small box -->
             <div class="small-box bg-warning">
               <div class="inner">
                 <h3>44</h3>
 
-                <p>User Registrations</p>
+                <p><strong>Pending</strong></p>
+                <span>1 Withdrawal</span><br>
+                <span>1 Attendance</span><br>
+                <span>0 MakeUp Paper</span>
               </div>
               <div class="icon">
                 <i class="ion ion-person-add"></i>
@@ -70,13 +81,17 @@
             </div>
           </div>
           <!-- ./col -->
-          <div class="col-lg-3 col-6">
+
+          <div class="col-lg-4 col-6">
             <!-- small box -->
             <div class="small-box bg-danger">
               <div class="inner">
                 <h3>65</h3>
 
-                <p>Unique Visitors</p>
+                <p><strong>Declined</strong></p>
+                <span>1 Withdrawal</span><br>
+                <span>1 Attendance</span><br>
+                <span>0 MakeUp Paper</span>
               </div>
               <div class="icon">
                 <i class="ion ion-pie-graph"></i>
@@ -89,12 +104,15 @@
         <!-- /.row -->
 
         <!-- New Application Button Row -->
-        <div class="row mb-3 mt-2">
-          <div class="col-sm-9">
-            <h3 class="m-0"></h3>
+        <div class="row mb-5 mt-0">
+          <div class="col-lg-4">
+            <a href="{{ route('withdrawal_case') }}" type="button" class="btn btn-lg btn-block bg-gradient-info"><i class="fas fa-plus mr-2"></i>Withdraw Course</a>
           </div><!-- /.col -->
-          <div class="col-sm-3">
-            <a href="{{ route('new_case') }}" type="button" class="btn btn-block bg-gradient-primary"><i class="fas fa-plus mr-2"></i>Add New Application</a>
+          <div class="col-lg-4">
+            <a href="{{ route('attendance_case') }}" type="button" class="btn btn-lg btn-block bg-gradient-warning"><i class="fas fa-plus mr-2"></i>Submit Attendance Case</a>
+          </div><!-- /.col -->
+           <div class="col-lg-4">
+            <a href="{{ route('makeupexam_case') }}" type="button" class="btn btn-lg btn-block bg-gradient-danger"><i class="fas fa-plus mr-2"></i>Appy for Makeup Exam</a>
           </div><!-- /.col -->
         </div><!-- /.row -->
 

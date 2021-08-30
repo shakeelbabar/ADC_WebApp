@@ -1,4 +1,5 @@
 <?php $page = 'withdraw' ?>
+<?php use App\Http\Controllers\CaseRegistrationController ?>
 @extends('layouts.student')
 
 @section('content')
@@ -81,52 +82,58 @@
         -->
         <!-- /. row Quick Form -->
 
-
-      <div class="card">
-        <div class="card-header">
-          <h3 class="card-title">Withdrawal Case Submission</h3>
+        <div class="row">
+          <div class="col">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title" style="font-size: 22px">
+                  <i class="fas fa-check-square mr-1"></i>
+                  Cofirm Case Submission
+                </h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <form action="{{ route('submit_withdrawal_case') }}" method="POST">
+                  @csrf
+                  <dl class="row" style="font-size: 17px">
+                    <dt class="col-sm-4">Course ID</dt>
+                    <dd class="col-sm-8">{{$course_id}}</dd>
+                    <input type="hidden" name="course_id" id="course_id" value="{{$course_id}}">
+                    <dt class="col-sm-4">Course Name</dt>
+                    <dd class="col-sm-8">{{$course_name}}</dd>
+                    <input type="hidden" name="course_name" id="course_name" value="{{$course_name}}">
+                    <dt class="col-sm-4">Instructor</dt>
+                    <dd class="col-sm-8">{{$instructor_name}}</dd>
+                    <input type="hidden" name="instructor_name" id="instructor_name" value="{{$instructor_name}}">
+                    <dt class="col-sm-4">Credit Hours</dt>
+                    <dd class="col-sm-8">{{$credit_hours}}</dd>
+                    <input type="hidden" name="credit_hours" id="credit_hours" value="{{$credit_hours}}">
+                    <dt class="col-sm-4">Attendance Presents Counts</dt>
+                    <dd class="col-sm-8">{{$presents}}</dd>
+                    <input type="hidden" name="presents" id="presents" value="{{$presents}}">
+                    <dt class="col-sm-4">Attendancec Absents Counts</dt>
+                    <dd class="col-sm-8">{{$absents}}</dd>
+                    <input type="hidden" name="absents" id="absents" value="{{$absents}}">
+                    <dt class="col-sm-4">Date</dt>
+                    <dd class="col-sm-8">{{date('d M, Y')}}</dd>
+                    <input type="hidden" name="date" id="date" value="{{date('d M, Y')}}">
+                    <input type="hidden" name="student_name" id="student_name" value="{{Auth::user()->name}}">
+                    <input type="hidden" name="student_id" id="student_id" value="{{Auth::user()->reg_id}}">
+                  </dl>
+                  <div class="row">
+                    <div class="col-lg-9"></div>
+                    <div class="col-lg-3">
+                      <input type="submit" name="submit" value="<?php echo $absents>7?'Confirm Submission':'Confirm Withdrawal'?>" class="btn bg-gradient-info btn-block"></a>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- ./col -->
         </div>
-        <!-- /.card-header -->
-        <div class="card-body">
-          <table class="table table-bordered text-nowrap">
-            <thead>
-              <tr>
-                <th style="width: 10px">#</th>
-                <th>Course Name</th>
-                <th>Instructor</th>
-                <th>Credit Hours</th>
-                <th style="width: 10px">Presents</th>
-                <th style="width: 10px">Absents</th>
-                <th style="width: 10px"></th>
-              </tr>
-            </thead>
-            <tbody>
-              <?php $c=0; foreach ($users as $user){ ?>
-              <tr>
-                <td><?php echo ++$c ?></td>
-                <td><?php echo $user->name ?></td>
-                <td><?php echo $user->first_name.' '.$user->last_name ?></td>
-                <td><?php echo $user->credit_hours?></td>
-                <td><?php echo $user->presents?></td>
-                <td><?php echo $user->absents?></td>
-                <td><a href="{{ route('confirm_withdrawal_case', ['data'=>$user]) }}" class="btn bg-gradient-<?php echo $user->absents>7?'warning':'primary'?> btn-sm mr-2 ml-2" style="width: 100px"><?php echo $user->absents>7?'Submit Case':'Withdraw' ?></a></td>
-              </tr>
-              <?php } ?>
-            </tbody>
-          </table>
-        </div>
-        <!-- /.card-body -->
-        <div class="card-footer clearfix">
-          <ul class="pagination pagination-sm m-0 float-right">
-            <li class="page-item"><a class="page-link" href="#">«</a></li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">»</a></li>
-          </ul>
-        </div>
-      </div>
-
 
 
       </div>

@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use View;
 use App\Models\Registration;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -10,16 +10,21 @@ use App\Providers\RouteServiceProvider;
 class DashboardController extends Controller
 {
     public function index(){
+        $data = array(
+            'username'=>Auth::user()->name,
+            'user_id'=>Auth::user()->reg_id,
+            'email'=>Auth::user()->email
+        );
         if(Auth::user()->hasRole('admin')){
-            return view('dashboards.admin');
+            return View::make('dashboards.admin')->with($data);
         }elseif(Auth::user()->hasRole('student')){
-            return view('dashboards.student');
+            return View::make('dashboards.student')->with($data);;
         }elseif(Auth::user()->hasRole('instructor')){
-            return view('dashboards.instructor');
+            return View::make('dashboards.instructor')->with($data);;
         }elseif(Auth::user()->hasRole('jury')){
-            return view('dashboards.jury');
+            return View::make('dashboards.jury')->with($data);;
         }elseif(Auth::user()->hasRole('secretary')){
-            return view('dashboards.secretary');
+            return View::make('dashboards.secretary')->with($data);;
         }
     }
 

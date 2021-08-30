@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -14,19 +15,47 @@ use App\Models\Instructor;
 class CaseRegistrationController extends Controller
 {
     public function newCase(){
-        return view('components.add-application');
+        return View::make('components.add-application')->with(['users'=>$this->getRegisteredCourses()]);
     }
 
     public function withdrawalCase(){
-        return view('components.withdraw-form');
+        return View::make('components.withdraw-form')->with(['users'=>$this->getRegisteredCourses()]);
     }
 
     public function attendanceCase(){
-        return view('components.attendance-form');
+        return View::make('components.attendance-form')->with(['users'=>$this->getRegisteredCourses()]);
     }
 
     public function makeupExamCase(){
-        return view('components.makeupexam-form');
+        return View::make('components.makeupexam-form')->with(['users'=>$this->getRegisteredCourses()]);
+    }
+
+    public function confirmWithdrawalCase(Request $request){
+        // echo 'hello';
+        // echo '<pre>';
+        // echo $request->data['crs_id'].'<br>';
+        // echo $request->data['name'].'<br>';
+        // echo $request->data['first_name'].' '.$request->data['last_name'].'<br>';
+        // echo $request->data['credit_hours'].'<br>';
+        // echo $request->data['presents'].'<br>';
+        // echo $request->data['absents'].'<br>';
+        // die();
+
+        $data = array(
+            'course_name'=>$request->data['name'],
+            'course_id'=>$request->data['crs_id'],
+            'instructor_name'=>$request->data['first_name'].' '.$request->data['last_name'],
+            'credit_hours'=>$request->data['credit_hours'],
+            'presents'=>$request->data['presents'],
+            'absents'=>$request->data['absents']
+        );
+        return View::make('components.register-withdrawal')->with($data);
+    }
+
+    public function submitWithdrawalCase(Request $request){
+        echo '<pre>';
+        echo 'Application ID: ATT00'.strtoupper(substr($request->_token,0,7));
+        return redirect()->route('dashboard');
     }
 
     public static function getRegisteredCourses(){
@@ -34,7 +63,7 @@ class CaseRegistrationController extends Controller
             ->join('courses', 'courses.crs_id', '=', 'registrations.course_id')
             ->join('instructors', 'instructors.reg_id', '=', 'registrations.instructor_id')
             ->join('attendance_records', 'attendance_records.course_id', '=', 'registrations.course_id')
-            ->select('courses.name', 'instructors.first_name', 'instructors.last_name', 'courses.credit_hours', 'attendance_records.presents', 'attendance_records.absents')
+            ->select('courses.crs_id', 'courses.name', 'instructors.first_name', 'instructors.last_name', 'courses.credit_hours', 'attendance_records.presents', 'attendance_records.absents')
             ->where('registrations.student_id','=',Auth::user()->reg_id)
             ->where('attendance_records.student_id', '=', Auth::user()->reg_id)
             ->get();

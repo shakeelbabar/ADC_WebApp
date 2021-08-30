@@ -104,7 +104,7 @@
           </li>
 
           <li class="nav-item">
-            <a href="{{ route('new_case') }}" class="nav-link <?php if ($page=='withdraw' || $page=='attendance' || $page=='makeupexam' ) echo 'active' ?>">
+            <a href="#" class="nav-link <?php if ($page=='withdraw' || $page=='attendance' || $page=='makeupexam' ) echo 'active' ?>">
               <i class="nav-icon fas fa-clone"></i>
               <p>
                 New Application
