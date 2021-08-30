@@ -3,6 +3,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\CaseRegistrationController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 
 /*
@@ -21,14 +22,31 @@ Route::get('/', function () {
 });
 
 Route::get('home', function(){
-    return view('dashboards.admin');
+    return view('dashboards.student');
+});
+Route::get('home1', function(){
+    return view('dashboards.student1');
 });
 
-Route::get('registerations', [DashboardController::class, 'registerations']);
 
-Route::get('dashboard', [DashboardController::class, 'index'])->middleware(['auth'])->name('dashboard');
-Route::get('new_case', [DashboardController::class, 'newCase'])->middleware(['auth'])->name('new_case');
+// for All Users
+Route::group(['middleware', ['auth']], function(){
+    Route::get('registerations', [DashboardController::class, 'registerations'])->name('registrations');
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+});
+
+// Only for students
+Route::group(['middleware' => ['auth', 'role:student']], function(){
+    Route::get('withdrawal_case', [CaseRegistrationController::class, 'withdrawalCase'])->name('withdrawal_case');
+    Route::get('attendance_case', [CaseRegistrationController::class, 'attendanceCase'])->name('attendance_case');
+    Route::get('makeupexam_case', [CaseRegistrationController::class, 'makeupExamCase'])->name('makeupexam_case');
+    Route::get('new_case', [CaseRegistrationController::class, 'newCase'])->name('new_case');
+});
+
 
 // Route::post('/register', [RegisteredUserController::class, 'store'])->name('register');
 
 require __DIR__.'/auth.php';
+
+
+// select distinct crs.name, ins.first_name, ins.last_name, crs.credit_hours, att.presents, att.absents from registrations as rg,  courses as crs, instructors as ins, attendance_records as att where crs.crs_id=rg.course_id and ins.reg_id = rg.instructor_id  and att.student_id='021-17-0037' and rg.student_id='021-17-0037' and crs.crs_id=att.course_id;

@@ -31,8 +31,4 @@ class DashboardController extends Controller
         }
         die();
     }
-
-    public function newCase(){
-        return view('components.add_application');
-    }
 }
