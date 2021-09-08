@@ -31,6 +31,18 @@
 
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="../../index3.html" class="nav-link">Home</a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="#" class="nav-link">Contact</a>
+      </li>
+    </ul>
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
 
@@ -94,7 +106,7 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-            <a href="{{ route('dashboard') }}" class="nav-link <?php if ($page=='dashboard') echo 'active' ?>">
+            <a href="#" class="nav-link active" id="dashboard-menu">
               <i class="nav-icon fas fa-th-list"></i>
               <p>
                 Applications
@@ -104,7 +116,7 @@
           </li>
 
           <li class="nav-item">
-            <a class="nav-link <?php if ($page=='withdraw' || $page=='attendance' || $page=='makeupexam' ) echo 'active' ?>">
+            <a href="#" class="nav-link" id="new-app-link">
               <i class="nav-icon fas fa-clone"></i>
               <p>
                 New Application
@@ -113,19 +125,19 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{ route('withdrawal_case') }}" class="nav-link <?php if($page == 'withdraw') echo 'active' ?> ">
+                <a href="#" class="nav-link" id="with-new">
                   <i class="fas fa-plus nav-icon"></i>
                   <p>Withdrawal Case</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{ route('attendance_case') }}" class="nav-link <?php if($page == 'attendance') echo 'active' ?>">
+                <a href="#" class="nav-link" id="att-new">
                   <i class="fas fa-plus nav-icon"></i>
                   <p>Attendance Case</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{ route('makeupexam_case') }}" class="nav-link <?php if($page == 'makeupexam') echo 'active' ?>">
+                <a href="#" class="nav-link" id="makeup-new">
                   <i class="fas fa-plus nav-icon"></i>
                   <p>Makeup Exam Case</p>
                 </a>
@@ -135,7 +147,7 @@
 
 
           <li class="nav-item">
-            <a href="{{ route('new_case') }}" class="nav-link">
+            <a href="#" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 New Application
@@ -209,7 +221,7 @@
   </aside>
 
   <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+  <div class="content-wrapper" id="content-wrapper">
     @yield('content')
   </div>
   <!-- /.content-wrapper -->
@@ -270,6 +282,6 @@ for (let i = 0; i<10; i++){
 <!-- <script src="dist/js/demo.js"></script> -->
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="dist/js/pages/dashboard.js"></script>
-<script src="dist/js/custom.js"></script>
+<script src="dist/js/update-container.js"></script>
 </body>
 </html>

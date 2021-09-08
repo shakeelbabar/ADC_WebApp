@@ -1,7 +1,3 @@
-<?php $page = 'withdraw' ?>
-@extends('layouts.student')
-
-@section('content')
     <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container-fluid">
@@ -97,12 +93,11 @@
                 <th>Credit Hours</th>
                 <th style="width: 10px">Presents</th>
                 <th style="width: 10px">Absents</th>
-                <th style="width: 10px">Registered</th>
                 <th style="width: 10px"></th>
               </tr>
             </thead>
             <tbody>
-            <?php $c = 0 ?>
+              <?php $c = 0 ?>
                 @foreach ($users as $user)
                   @if($user->absents < 7)
                 <tr>
@@ -112,8 +107,7 @@
                   <td>{{$user->credit_hours}}</td>
                   <td>{{$user->presents}}</td>
                   <td>{{$user->absents}}</td>
-                  <td>{{$user->registered==true?'True':'False'}}</td>
-                  <td><a href="{{ route('confirm_withdrawal_case', ['data'=>$user]) }}" class="btn bg-gradient-primary btn-sm {{ $user->registered==true?'disabled':'' }} mr-2 ml-2" style="width: 100px">Withdraw</a></td>
+                  <td><a href="{{ route('confirm_withdrawal_case', ['data'=>$user]) }}" class="btn bg-gradient-primary btn-sm mr-2 ml-2" style="width: 100px">Withdraw</a></td>
                 </tr>
                 @endif
               @endforeach
@@ -132,10 +126,7 @@
         </div>
       </div>
 
-
-
       </div>
       <!-- /.container-fluid -->
     </section>
     <!-- /.content -->
-@endsection

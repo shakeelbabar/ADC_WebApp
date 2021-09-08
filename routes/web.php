@@ -41,8 +41,12 @@ Route::group(['middleware' => ['auth', 'role:student']], function(){
     Route::get('attendance-case', [CaseRegistrationController::class, 'attendanceCase'])->name('attendance_case');
     Route::get('makeupexam-case', [CaseRegistrationController::class, 'makeupExamCase'])->name('makeupexam_case');
     Route::get('new-case', [CaseRegistrationController::class, 'newCase'])->name('new_case');
-    Route::get('submit-case', [CaseRegistrationController::class, 'confirmWithdrawalCase'])->name('confirm_withdrawal_case');
-    Route::post('confirm-submit', [CaseRegistrationController::class, 'submitWithdrawalCase'])->name('submit_withdrawal_case');
+    Route::get('confirm-wth-case', [CaseRegistrationController::class, 'confirmWithdrawalCase'])->name('confirm_withdrawal_case');
+    Route::get('confirm-att-case', [CaseRegistrationController::class, 'confirmAttendanceCase'])->name('confirm_attendance_case');
+    Route::post('submit-wth-case', [CaseRegistrationController::class, 'submitWithdrawalCase'])->name('submit_withdrawal_case');
+    Route::post('submit-att-case', [CaseRegistrationController::class, 'submitAttendanceCase'])->name('submit_attendance_case');
+    Route::get('withdrawal_case_ajax', [CaseRegistrationController::class, 'withdrawalCaseAjax'])->name('withdrawal_case_ajax');
+    
 });
 
 

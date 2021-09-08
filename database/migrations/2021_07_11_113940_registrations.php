@@ -17,6 +17,7 @@ class Registrations extends Migration
             $table->string('student_id');
             $table->string('course_id');
             $table->string('instructor_id');
+            $table->string('term');
             $table->timestamps();
             $table->primary(array('student_id', 'course_id'));
             // $table->foreign('student_id')->references('reg_id')->on('students');

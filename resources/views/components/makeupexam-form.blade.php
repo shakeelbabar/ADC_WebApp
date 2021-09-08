@@ -43,17 +43,19 @@
               </tr>
             </thead>
             <tbody>
-              <?php $c=0; foreach ($users as $user){ ?>
+            <?php $c = 0 ?>
+              @foreach ($users as $user)
               <tr>
-                <td><?php echo ++$c ?></td>
-                <td><?php echo $user->name ?></td>
-                <td><?php echo $user->first_name.' '.$user->last_name ?></td>
-                <td><?php echo $user->credit_hours?></td>
-                <td><?php echo $user->presents?></td>
-                <td><?php echo $user->absents?></td>
+                <td>{{++$c}}</td>
+                <td>{{$user->name}}</td>
+                <td>{{$user->first_name.' '.$user->last_name}}</td>
+                <td>{{$user->credit_hours}}</td>
+                <td>{{$user->presents}}</td>
+                <td>{{$user->absents}}</td>
                 <td><button class="btn bg-gradient-success btn-sm mr-2 ml-2" style="width: 100px">Apply</button></td>
               </tr>
-              <?php } ?>
+              @endforeach
+
             </tbody>
           </table>
         </div>
@@ -74,4 +76,4 @@
       <!-- /.container-fluid -->
     </section>
     <!-- /.content -->
-@endsection
+    @endsection

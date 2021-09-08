@@ -1,5 +1,4 @@
-<?php $page = 'withdraw' ?>
-<?php use App\Http\Controllers\CaseRegistrationController ?>
+<?php $page = 'attendance' ?>
 @extends('layouts.student')
 
 @section('content')
@@ -93,11 +92,11 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <form action="{{ route('submit_withdrawal_case') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('submit_attendance_case') }}" method="POST" enctype="multipart/form-data">
                   @csrf
                   <dl class="row" style="font-size: 17px">
                     <dt class="col-sm-4">Case</dt>
-                    <dd class="col-sm-8">Withdrawal</dd>
+                    <dd class="col-sm-8">Attendance</dd>
                     <dt class="col-sm-4">Course ID</dt>
                     <dd class="col-sm-8">{{$course_id}}</dd>
                     <input type="hidden" name="course_id" id="course_id" value="{{$course_id}}">
@@ -145,7 +144,7 @@
                       <a href="{{url()->previous()}}" class="btn btn-block bg-gradient-warning " ><i class="fa fa-arrow-left mr-1"></i> Back</a>
                     </div>
                       <div class="col-lg-3 mb-3">
-                      <input type="submit" name="submit" value="<?php echo $absents>7?'Confirm Submission':'Confirm Withdrawal'?>" class="btn bg-gradient-info btn-block">
+                      <input type="submit" name="submit" value="{{$absents>7?'Confirm Submission':'Confirm Withdrawal'}}" class="btn bg-gradient-info btn-block">
                     </div>
                   </div>
                 </form>

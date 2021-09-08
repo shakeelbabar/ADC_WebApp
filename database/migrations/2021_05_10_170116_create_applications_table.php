@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAttendanceApplicationsTable extends Migration
+class CreateApplicationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,14 @@ class CreateAttendanceApplicationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('attendance_applications', function (Blueprint $table) {
+        Schema::create('applications', function (Blueprint $table) {
             $table->id();
             $table->string('case_id');
+            $table->string('type');
             $table->string('student_id');
             $table->string('course_id');
             $table->string('instructor_id');
-            $table->integer('absents');
             $table->string('reason');
-            $table->binary('attachment');
             $table->string('status');
             $table->string('remarks');
             $table->timestamps();
@@ -35,6 +34,6 @@ class CreateAttendanceApplicationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('attendance_applications');
+        Schema::dropIfExists('applications');
     }
 }

@@ -15,6 +15,7 @@ class CreateMakeupExamApplicationsTable extends Migration
     {
         Schema::create('makeup_exam_applications', function (Blueprint $table) {
             $table->id();
+            $table->string('case_id');
             $table->string('student_id');
             $table->string('course_id');
             $table->string('instructor_id');

@@ -1,7 +1,3 @@
-<?php $page = 'dashboard' ?>
-@extends('layouts.student')
-
-@section('content')
     <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container-fluid">
@@ -150,17 +146,16 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <?php $c=0 ?>
-                    @foreach($data['cases'] as $case)
-                      <tr>
-                        <td>{{++$c}}</td>
-                        <td>{{$case->case_id}}</td>
-                        <td>{{$case->type}}</td>
-                        <td>{{date('d M, Y', strtotime($case->created_at))}}</td>
-                        <td><span class="tag tag-success">{{$case->status}}</span></td>
-                        <td>{{$case->remarks}}</td>
-                      </tr>
-                    @endforeach
+                    <?php for($i=0; $i<10; $i++){ ?>
+                    <tr>
+                      <td><?php echo $i+1 ?></td>
+                      <td>1834343</td>
+                      <td>Withdrawal</td>
+                      <td>11-7-2014</td>
+                      <td><span class="tag tag-success">Approved</span></td>
+                      <td>Bacon ipsum dolor sit amet salami  venison chicken flank fatback doner.</td>
+                    </tr>
+                    <?php } ?>
                   </tbody>
                 </table>
               </div>
@@ -173,4 +168,3 @@
       </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
-@endsection
