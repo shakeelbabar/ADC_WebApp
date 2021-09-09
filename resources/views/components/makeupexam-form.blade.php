@@ -44,14 +44,14 @@
             </thead>
             <tbody>
             <?php $c = 0 ?>
-              @foreach ($users as $user)
+              @foreach ($courses as $course)
               <tr>
                 <td>{{++$c}}</td>
-                <td>{{$user->name}}</td>
-                <td>{{$user->first_name.' '.$user->last_name}}</td>
-                <td>{{$user->credit_hours}}</td>
-                <td>{{$user->presents}}</td>
-                <td>{{$user->absents}}</td>
+                <td>{{$course->name}}</td>
+                <td>{{$course->first_name.' '.$course->last_name}}</td>
+                <td>{{$course->credit_hours}}</td>
+                <td>{{$course->presents}}</td>
+                <td>{{$course->absents}}</td>
                 <td><button class="btn bg-gradient-success btn-sm mr-2 ml-2" style="width: 100px">Apply</button></td>
               </tr>
               @endforeach

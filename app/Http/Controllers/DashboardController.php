@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 use View;
 use App\Models\Registration;
 use App\Models\Application;
+use App\Models\Case_document;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Providers\RouteServiceProvider;
 
 class DashboardController extends Controller
@@ -16,14 +18,11 @@ class DashboardController extends Controller
                 'username'=>Auth::user()->name,
                 'user_id'=>Auth::user()->reg_id,
                 'email'=>Auth::user()->email,
-                'cases'=>$this->getApplications()
+                'cases'=>$this->getApplications(),
+                'approved'=>$this->getCasesCount('Approved'),
+                'pending'=>$this->getCasesCount('Pending'),
+                'declined'=>$this->getCasesCount('Declined')
             );
-            // echo '<pre>';
-            // // // print_r($data['cases']);
-            // foreach($data['cases'] as $case){
-            //     echo $case->case_id;
-            // }
-            // die();
             if(Auth::user()->hasRole('admin')){
                 return View::make('dashboards.admin')->with(['data'=>$data]);
             }elseif(Auth::user()->hasRole('student')){
@@ -50,7 +49,28 @@ class DashboardController extends Controller
     }
 
     private function getApplications(){
-        return Application::where(['student_id'=>Auth::user()->reg_id])->get();
-        // return $rs;
+        // return Application::where(['student_id'=>Auth::user()->reg_id])->get();
+        $cases = DB::table('applications')
+            ->join('courses','courses.crs_id','=','applications.course_id')
+            ->join('instructors', 'instructors.reg_id','=', 'applications.instructor_id')
+            ->select('applications.*', 'courses.name', 'courses.credit_hours', 'instructors.first_name', 'instructors.last_name')
+            ->where('applications.student_id', '=', Auth::user()->reg_id)
+            ->get();
+
+        foreach($cases as $case){
+            if (Case_document::where(['case_id'=>$case->case_id])->count() > 0){
+                $case->files = Case_document::where(['case_id'=>$case->case_id])->get();
+            }else{
+                $case->files = Null;
+            }
+        }
+        // echo '<pre>';
+        // print_r($cases);
+        // die();
+        return $cases;
+    }
+    
+    private function getCasesCount($status){
+        return Application::where(['status'=>$status])->count();
     }
 }

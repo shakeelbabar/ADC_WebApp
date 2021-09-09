@@ -23,7 +23,7 @@ class CaseRegistrationController extends Controller
     }
 
     public function withdrawalCase(){
-        return View::make('components.withdraw-form')->with(['users'=>$this->getRegisteredCourses('Withdrawal')]);
+        return View::make('components.withdraw-form')->with(['courses'=>$this->getRegisteredCourses('Withdrawal')]);
     }
 
     public function withdrawalCaseAjax(){
@@ -31,11 +31,11 @@ class CaseRegistrationController extends Controller
     }
 
     public function attendanceCase(){
-        return View::make('components.attendance-form')->with(['users'=>$this->getRegisteredCourses('Attendance')]);
+        return View::make('components.attendance-form')->with(['courses'=>$this->getRegisteredCourses('Attendance')]);
     }
 
     public function makeupExamCase(){
-        return View::make('components.makeupexam-form')->with(['users'=>$this->getRegisteredCourses('Makeup_Exam')]);
+        return View::make('components.makeupexam-form')->with(['courses'=>$this->getRegisteredCourses('Makeup_Exam')]);
     }
 
     public function confirmWithdrawalCase(Request $request){
@@ -192,7 +192,7 @@ class CaseRegistrationController extends Controller
     }
 
     public static function getRegisteredCourses($type){
-        $cases = DB::table('registrations')
+        $courses = DB::table('registrations')
             ->join('courses', 'courses.crs_id', '=', 'registrations.course_id')
             ->join('instructors', 'instructors.reg_id', '=', 'registrations.instructor_id')
             ->join('attendance_records', 'attendance_records.course_id', '=', 'registrations.course_id')
@@ -204,15 +204,15 @@ class CaseRegistrationController extends Controller
         // echo '<pre>';
         // print_r($users[1]->crs_id);
         // die();
-        foreach($cases as $case){
-            $rs = Application::where(['student_id'=>Auth::user()->reg_id,'course_id'=>$case->crs_id, 'type'=>$type])->first();
+        foreach($courses as $course){
+            $rs = Application::where(['student_id'=>Auth::user()->reg_id,'course_id'=>$course->crs_id, 'type'=>$type])->first();
             if($rs){
-                $case->registered = true;
+                $course->registered = true;
             }else{
-                $case->registered = false;
+                $course->registered = false;
             }
         }
-        return $cases;
+        return $courses;
         // echo '<pre>';
         // foreach($users as $user){
         //     echo $user->name.'<br>';

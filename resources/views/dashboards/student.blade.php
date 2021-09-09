@@ -30,9 +30,9 @@
             <!-- small box -->
             <div class="small-box bg-info">
               <div class="inner">
-                <h3>12</h3>
+                <h3>{{$data['approved']}}</h3>
 
-                <p><strong>Active</strong></p>
+                <p><strong>Approved/Active</strong></p>
                 <span>1 Withdrawal</span><br>
                 <span>1 Attendance</span><br>
                 <span>0 MakeUp Paper</span>
@@ -67,7 +67,7 @@
             <!-- small box -->
             <div class="small-box bg-warning">
               <div class="inner">
-                <h3>44</h3>
+                <h3>{{$data['pending']}}</h3>
 
                 <p><strong>Pending</strong></p>
                 <span>1 Withdrawal</span><br>
@@ -86,7 +86,7 @@
             <!-- small box -->
             <div class="small-box bg-danger">
               <div class="inner">
-                <h3>65</h3>
+                <h3>{{$data['declined']}}</h3>
 
                 <p><strong>Declined</strong></p>
                 <span>1 Withdrawal</span><br>
@@ -116,8 +116,106 @@
           </div><!-- /.col -->
         </div><!-- /.row -->
 
+        <!-- Expandable Table Row -->
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="">Recent Applications</h3>
+              </div>
+              <!-- ./card-header -->
+              <div class="card-body">
+                <table class="table table-bordered table-hover">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Case ID</th>
+                      <th>Type</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php $c=0 ?>
+                      @foreach($data['cases'] as $case)
+                      <tr data-widget="expandable-table" aria-expanded="false">
+                        <td>{{++$c}}</td>
+                        <td>{{$case->case_id}}</td>
+                        <td>{{$case->type}}</td>
+                        <td>{{$case->status}}</td>
+                      </tr>
+                      <tr class="expandable-body d-none">
+                        <td colspan="4">
 
-        <!-- Table row -->
+                          <div class="row">
+                            <div class="col mt-2">
+                              <h3>Case Details</h3>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <!-- ./col -->
+                            <div class="col">
+                              <dl class="row">
+                                <dt class="col-sm-4">Case ID</dt>
+                                <dd class="col-sm-8">{{$case->case_id}}</dd>
+                                <dt class="col-sm-4">Case Type</dt>
+                                <dd class="col-sm-8">{{$case->type}}</dd>
+                                <dt class="col-sm-4">Submission Date</dt>
+                                <dd class="col-sm-8">{{date('d M, Y h:i:s', strtotime($case->created_at))}}</dd>
+                                <dt class="col-sm-4">Course</dt>
+                                <dd class="col-sm-8">{{$case->name}}</dd>
+                                <dt class="col-sm-4">Instructor Name</dt>
+                                <dd class="col-sm-8">{{$case->first_name.' '.$case->last_name}}</dd>
+                                <dt class="col-sm-4">Reason</dt>
+                                <dd class="col-sm-8">{{$case->reason}}</dd>
+                                <dt class="col-sm-4">Remarks</dt>
+                                <dd class="col-sm-8">{{$case->remarks}}</dd>
+                                @if ($case->files != Null)
+                                <dt class="col-sm-4">Documents Attached</dt>
+                                  <dd class="col-sm-8">
+                                    <div class="row">
+                                      @foreach ($case->files as $file)
+                                      <div class="col-sm-3">
+                                        <div class="position-relative border border-secondary container-img" style="height: 100px; overflow: hidden;">
+                                          <img src="{{asset(Storage::url($file->file))}}" alt="Photo 1" class="img-fluid image-doc" onclick="alert('hello')">
+                                          <div class="middle-doc">
+                                            <a type="button" class="btn btn-secondary btn-sm down-btn"><i class="fa fa-download"></i></a>
+                                            <a type="button" class="btn btn-danger btn-sm down-btn"><i class="fa fa-trash-alt"></i></a>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      @endforeach
+                                    </div>
+                                  </dd>
+                                @endif
+                              </dl>
+                            </div>
+                            <!-- ./col -->
+                          </div>
+
+
+
+
+                          <div class="row">
+                            <div class="col text-right">
+                              <button type="button" class="btn bg-gradient-danger btn-sm mr-2 ml-2" style="width: 120px">Withdraw Case</button>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                      @endforeach
+
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+        </div>
+        <!-- Expandable Table Row end -->
+
+
+        <!-- Fixed Table row -->
         <div class="row">
           <div class="col-12">
             <div class="card">
@@ -143,7 +241,7 @@
                     <tr>
                       <th>#</th>
                       <th>Application ID</th>
-                      <th>Case</th>
+                      <th>Type</th>
                       <th>Date</th>
                       <th>Status</th>
                       <th>Remarks</th>
@@ -169,7 +267,10 @@
             <!-- /.card -->
           </div>
         </div>
-        <!-- /.row -->        <!-- /.row (main row) -->
+        <!-- /. Fixed Table row end -->        
+      
+        
+        <!-- /.row (main row) -->
       </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
