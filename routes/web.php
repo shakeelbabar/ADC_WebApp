@@ -33,6 +33,7 @@ Route::get('home1', function(){
 Route::group(['middleware', ['auth']], function(){
     Route::get('registerations', [DashboardController::class, 'registerations'])->name('registrations');
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('download', [CaseRegistrationController::class, 'downloadFile'])->name('download');
 });
 
 // Only for students
@@ -43,10 +44,13 @@ Route::group(['middleware' => ['auth', 'role:student']], function(){
     Route::get('new-case', [CaseRegistrationController::class, 'newCase'])->name('new_case');
     Route::get('confirm-wth-case', [CaseRegistrationController::class, 'confirmWithdrawalCase'])->name('confirm_withdrawal_case');
     Route::get('confirm-att-case', [CaseRegistrationController::class, 'confirmAttendanceCase'])->name('confirm_attendance_case');
+    Route::get('confirm-mkp-case', [CaseRegistrationController::class, 'confirmMakeupExamCase'])->name('confirm_makeupexam_case');
     Route::post('submit-wth-case', [CaseRegistrationController::class, 'submitWithdrawalCase'])->name('submit_withdrawal_case');
     Route::post('submit-att-case', [CaseRegistrationController::class, 'submitAttendanceCase'])->name('submit_attendance_case');
+    Route::post('submit-mkp-case', [CaseRegistrationController::class, 'submitMakeupExamCase'])->name('submit_makeupexam_case');
     Route::get('withdrawal_case_ajax', [CaseRegistrationController::class, 'withdrawalCaseAjax'])->name('withdrawal_case_ajax');
-    
+    Route::get('requestCancel', [CaseRegistrationController::class, 'requestCancel'])->name('requestCance');
+    // Route::get('requestCancel', [CaseRegistrationController::class, 'requestCancel'])->name('requestCancel1');
 });
 
 

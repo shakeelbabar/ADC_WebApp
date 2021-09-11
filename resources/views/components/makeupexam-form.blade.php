@@ -36,6 +36,7 @@
                 <th style="width: 10px">#</th>
                 <th>Course Name</th>
                 <th>Instructor</th>
+                <th>Semester</th>
                 <th>Credit Hours</th>
                 <th style="width: 10px">Presents</th>
                 <th style="width: 10px">Absents</th>
@@ -49,10 +50,11 @@
                 <td>{{++$c}}</td>
                 <td>{{$course->name}}</td>
                 <td>{{$course->first_name.' '.$course->last_name}}</td>
+                <td>{{$course->term}}</td>
                 <td>{{$course->credit_hours}}</td>
                 <td>{{$course->presents}}</td>
                 <td>{{$course->absents}}</td>
-                <td><button class="btn bg-gradient-success btn-sm mr-2 ml-2" style="width: 100px">Apply</button></td>
+                <td><a href="{{ route('confirm_makeupexam_case', ['data'=>$course]) }}" class="btn bg-gradient-success btn-sm mr-2 ml-2 {{ $course->registered==true?'disabled':'' }}" style="width: 100px">Apply</button></td>
               </tr>
               @endforeach
 

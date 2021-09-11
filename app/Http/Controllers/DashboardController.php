@@ -21,6 +21,7 @@ class DashboardController extends Controller
                 'cases'=>$this->getApplications(),
                 'approved'=>$this->getCasesCount('Approved'),
                 'pending'=>$this->getCasesCount('Pending'),
+                'withdrawn'=>$this->getCasesCount('Withdrawn'),
                 'declined'=>$this->getCasesCount('Declined')
             );
             if(Auth::user()->hasRole('admin')){
@@ -71,6 +72,6 @@ class DashboardController extends Controller
     }
     
     private function getCasesCount($status){
-        return Application::where(['status'=>$status])->count();
+        return Application::where(['status'=>$status, 'student_id'=>Auth::user()->reg_id])->count();
     }
 }

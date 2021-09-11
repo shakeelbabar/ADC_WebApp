@@ -26,9 +26,9 @@
         <!-- Small boxes (Stat box) -->
         <div class="row">
 
-        <div class="col-lg-4 col-6">
+        <div class="col-lg-3 col-6">
             <!-- small box -->
-            <div class="small-box bg-info">
+            <div class="small-box bg-success">
               <div class="inner">
                 <h3>{{$data['approved']}}</h3>
 
@@ -63,7 +63,7 @@
           ./col // comment this
           -->
 
-          <div class="col-lg-4 col-6">
+          <div class="col-lg-3 col-6">
             <!-- small box -->
             <div class="small-box bg-warning">
               <div class="inner">
@@ -82,7 +82,27 @@
           </div>
           <!-- ./col -->
 
-          <div class="col-lg-4 col-6">
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-info">
+              <div class="inner">
+                <h3>{{$data['withdrawn']}}</h3>
+
+                <p><strong>Withdrawn/Cancelled</strong></p>
+                <span>1 Withdrawal</span><br>
+                <span>1 Attendance</span><br>
+                <span>0 MakeUp Paper</span>
+              </div>
+              <div class="icon">
+                <i class="ion ion-person-add"></i>
+              </div>
+              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <!-- ./col -->
+
+
+          <div class="col-lg-3 col-6">
             <!-- small box -->
             <div class="small-box bg-danger">
               <div class="inner">
@@ -104,24 +124,25 @@
         <!-- /.row -->
 
         <!-- New Application Button Row -->
-        <div class="row mb-5 mt-0">
+        <!-- <div class="row mb-5 mt-0">
           <div class="col-lg-4">
             <a href="{{ route('withdrawal_case') }}" type="button" class="btn btn-lg btn-block bg-gradient-info"><i class="fas fa-plus mr-2"></i>Withdraw Course</a>
-          </div><!-- /.col -->
+          </div>
           <div class="col-lg-4">
             <a href="{{ route('attendance_case') }}" type="button" class="btn btn-lg btn-block bg-gradient-warning"><i class="fas fa-plus mr-2"></i>Submit Attendance Case</a>
-          </div><!-- /.col -->
+          </div>
            <div class="col-lg-4">
             <a href="{{ route('makeupexam_case') }}" type="button" class="btn btn-lg btn-block bg-gradient-danger"><i class="fas fa-plus mr-2"></i>Appy for Makeup Exam</a>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
+          </div>
+        </div> -->
+        <!-- /.row -->
 
         <!-- Expandable Table Row -->
         <div class="row">
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="">Recent Applications</h3>
+                <h3 class="card-title">Recent Applications</h3>
               </div>
               <!-- ./card-header -->
               <div class="card-body">
@@ -174,11 +195,11 @@
                                   <dd class="col-sm-8">
                                     <div class="row">
                                       @foreach ($case->files as $file)
-                                      <div class="col-sm-3">
+                                      <div class="col-sm-3 mt-2">
                                         <div class="position-relative border border-secondary container-img" style="height: 100px; overflow: hidden;">
                                           <img src="{{asset(Storage::url($file->file))}}" alt="Photo 1" class="img-fluid image-doc" onclick="alert('hello')">
                                           <div class="middle-doc">
-                                            <a type="button" class="btn btn-secondary btn-sm down-btn"><i class="fa fa-download"></i></a>
+                                            <a type="button" class="btn btn-secondary btn-sm down-btn" onclick="downloadFile('{{$file->file}}')"><i class="fa fa-download"></i></a>
                                             <a type="button" class="btn btn-danger btn-sm down-btn"><i class="fa fa-trash-alt"></i></a>
                                           </div>
                                         </div>
@@ -192,12 +213,17 @@
                             <!-- ./col -->
                           </div>
 
-
-
-
                           <div class="row">
                             <div class="col text-right">
-                              <button type="button" class="btn bg-gradient-danger btn-sm mr-2 ml-2" style="width: 120px">Withdraw Case</button>
+                              <a type="button" class="btn bg-gradient-danger btn-sm mr-2 ml-2" style="width: 150px" onclick="cancelRequest('{{$case->case_id}}')">Request Cancellation</a>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col" id="response-{{$case->case_id}}" style="display: none;">
+                              <div class="alert alert-dismissible" style="height: 50px;">
+                              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                              <p class="message"><i class="icon fas fa-times"></i></p>
+                              </div>
                             </div>
                           </div>
                         </td>

@@ -20,6 +20,59 @@ function handleFileSelect(e) {
     nof.innerHTML = i+" files attached";
 }
 
+function downloadFile(file){
+    jQuery.ajax({
+        url:'/download',
+        type:'get',
+        data:'file='+file,
+        xhrFields: {
+            responseType: 'blob'
+        },
+        success:function(response){
+            var blob = new Blob([response]);
+            var link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = file;
+            link.click();
+        },
+        error: function(blob){
+            console.log(blob);
+        }
+    });
+}
+
+
+function cancelRequest(case_id){
+    // alert('Case ID: '+case_id);
+    // console.log($('#'+case_id).text());
+    jQuery.ajax({
+        url:'/requestCancel',
+        type:'get',
+        data:'case_id='+case_id,
+        success:function(result){
+            if(result=='true'){
+                icon = 'check';
+                alert = 'success';
+                message = '<b>Success!</b> Cancellation request for Case '+case_id+' has been submitted.';
+            }else{
+                icon = 'times';
+                alert = 'danger';
+                if(result=='already')
+                    message = '<b>Already Withdrawn or Declined! </b> Cancellation submission for Case '+case_id+' has been failed.';
+                else
+                    message = '<b>Failed!</b> Cancellation submission for Case '+case_id+' has been failed.';
+            }
+            $('.alert').removeClass('alert-danger').removeClass('alert-success').addClass('alert-'+alert);
+            $('#response-'+case_id).find('.message').html('<i class="icon fas fa-'+icon+'"></i> '+message);
+            $('#response-'+case_id).fadeIn("slow", function(){
+                setTimeout(function(){
+                    $('#response-'+case_id).fadeOut("slow");
+                }, 4000);
+            });
+        }
+    });
+}
+
 
 
 // $('.nav-link').on('click', function() {
