@@ -21,6 +21,7 @@ class DashboardController extends Controller
                 'cases'=>$this->getApplications(),
                 'approved'=>$this->getCasesCount('Approved'),
                 'pending'=>$this->getCasesCount('Pending'),
+                'forwarded'=>$this->getCasesCount('Forwarded'),
                 'withdrawn'=>$this->getCasesCount('Withdrawn'),
                 'declined'=>$this->getCasesCount('Declined')
             );
@@ -49,15 +50,34 @@ class DashboardController extends Controller
         die();
     }
 
-    private function getApplications(){
-        // return Application::where(['student_id'=>Auth::user()->reg_id])->get();
+    private function getAllApplications(){
+        $cases = DB::table('applications')
+            ->join('courses','courses.crs_id','=','applications.course_id')
+            ->join('instructors', 'instructors.reg_id','=', 'applications.instructor_id')
+            ->join('students', 'students.reg_id', '=', 'applications.student_id')
+            ->select('applications.*', 'students.first_name as st_fname', 'students.last_name as st_lname', 'students.reg_id as st_id','courses.name', 'courses.credit_hours', 'instructors.first_name', 'instructors.last_name', 'instructors.reg_id')
+            ->get();
+        return $cases;
+    }
+
+    private function getStudentApplications(){
         $cases = DB::table('applications')
             ->join('courses','courses.crs_id','=','applications.course_id')
             ->join('instructors', 'instructors.reg_id','=', 'applications.instructor_id')
             ->select('applications.*', 'courses.name', 'courses.credit_hours', 'instructors.first_name', 'instructors.last_name')
             ->where('applications.student_id', '=', Auth::user()->reg_id)
             ->get();
+        return $cases;
+    }
 
+    private function getApplications(){
+        // return Application::where(['student_id'=>Auth::user()->reg_id])->get();
+        $cases = null;
+        if(Auth::user()->hasRole('student')){
+            $cases = $this->getStudentApplications();
+        }elseif(Auth::user()->hasRole('secretary')){
+            $cases = $this->getAllApplications();
+        }
         foreach($cases as $case){
             if (Case_document::where(['case_id'=>$case->case_id])->count() > 0){
                 $case->files = Case_document::where(['case_id'=>$case->case_id])->get();
@@ -65,9 +85,6 @@ class DashboardController extends Controller
                 $case->files = Null;
             }
         }
-        // echo '<pre>';
-        // print_r($cases);
-        // die();
         return $cases;
     }
     

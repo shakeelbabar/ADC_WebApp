@@ -24,6 +24,13 @@
   opacity: 1;
 }
 
+.down-btn {
+  background-color: #04AA6D;
+  color: white;
+  font-size: 16px;
+  padding: 16px 32px;
+}
+
 .middle-doc {
   transition: .5s ease;
   opacity: 0;

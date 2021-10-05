@@ -4,6 +4,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CaseRegistrationController;
+use App\Http\Controllers\CaseManagementController;
+use App\Http\Controllers\VirtualMeetingController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 
 /*
@@ -53,6 +55,13 @@ Route::group(['middleware' => ['auth', 'role:student']], function(){
     // Route::get('requestCancel', [CaseRegistrationController::class, 'requestCancel'])->name('requestCancel1');
 });
 
+// Only for secretary
+Route::group(['middleware'=>['auth', 'role:secretary']], function(){
+    Route::get('approved-cases', [CaseManagementController::class, 'approvedCases'])->name('approved-cases');
+    Route::get('decline-case', [CaseManagementController::class, 'declineCase'])->name('decline-case');
+    Route::get('forward-to-adc', [CaseManagementController::class, 'forwardToADC'])->name('forward-to-adc');
+    Route::get('meetings', [VirtualMeetingController::class, 'scheduleMeeting'])->name('meetings');
+});
 
 // Route::post('/register', [RegisteredUserController::class, 'store'])->name('register');
 

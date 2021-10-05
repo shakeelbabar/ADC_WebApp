@@ -336,7 +336,7 @@ class CaseRegistrationController extends Controller
                 $case->save();
                 echo 'true';
             }else{
-                echo 'already';
+                echo $case->case_status;
             }
         }catch(ModelNotFoundException $e){
             echo 'false';

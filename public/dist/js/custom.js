@@ -1,11 +1,13 @@
-let selDiv = "";
+  let selDiv = "";
 let nof = "";
 document.addEventListener("DOMContentLoaded", init, false);
 
 function init() {
-    document.querySelector('#uploaded_files').addEventListener('change', handleFileSelect, false);
-    selDiv = document.querySelector("#selected-files");
-    nof = document.querySelector('#nof');
+    if(document.querySelector('#uploaded_files')!==null){
+        document.querySelector('#uploaded_files').addEventListener('change', handleFileSelect, false);
+        selDiv = document.querySelector("#selected-files");
+        nof = document.querySelector('#nof');
+    }
 }
     
 function handleFileSelect(e) {
@@ -57,10 +59,10 @@ function cancelRequest(case_id){
             }else{
                 icon = 'times';
                 alert = 'danger';
-                if(result=='already')
-                    message = '<b>Already Withdrawn or Declined! </b> Cancellation submission for Case '+case_id+' has been failed.';
-                else
+                if(result=='false')
                     message = '<b>Failed!</b> Cancellation submission for Case '+case_id+' has been failed.';
+                else
+                    message = '<b>Already '+result+' </b> Cancellation submission for Case '+case_id+' has been failed.';
             }
             $('.alert').removeClass('alert-danger').removeClass('alert-success').addClass('alert-'+alert);
             $('#response-'+case_id).find('.message').html('<i class="icon fas fa-'+icon+'"></i> '+message);
@@ -73,6 +75,67 @@ function cancelRequest(case_id){
     });
 }
 
+function declineCase(case_id){
+    // alert('Case ID: '+case_id);
+    // console.log($('#'+case_id).text());
+    jQuery.ajax({
+        url:'/decline-case',
+        type:'get',
+        data:'case_id='+case_id,
+        success:function(result){
+            if(result=='true'){
+                icon = 'check';
+                alert = 'info';
+                message = '<b>Success!</b> Case with ID '+case_id+' has been declined by ADC Secretary.';
+            }else{
+                icon = 'times';
+                alert = 'danger';
+                if(result=='false')
+                    message = '<b>Failed!</b> Decline request for Case '+case_id+' has been failed.';
+                else
+                    message = '<b>Already '+result+'</b>! Decline request for Case '+case_id+' has been failed.';
+            }
+            $('.alert').removeClass('alert-danger').removeClass('alert-success').addClass('alert-'+alert);
+            $('#response-'+case_id).find('.message').html('<i class="icon fas fa-'+icon+'"></i> '+message);
+            $('#response-'+case_id).fadeIn("slow", function(){
+                setTimeout(function(){
+                    $('#response-'+case_id).fadeOut("slow");
+                }, 4000);
+            });
+        }
+    });
+}
+
+function forwardToADC(case_id){
+    // alert('Case ID: '+case_id);
+    // console.log($('#'+case_id).text());
+    jQuery.ajax({
+        url:'/forward-to-adc',
+        type:'get',
+        data:'case_id='+case_id,
+        success:function(result){
+            if(result=='true'){
+                icon = 'check';
+                alert = 'info';
+                message = '<b>Success!</b> Case with ID '+case_id+' has been forwarded to ADC..';
+            }else{
+                icon = 'times';
+                alert = 'danger';
+                if(result=='false')
+                    message = '<b>Failed!</b> Request for Case '+case_id+' has been failed.';
+                else
+                    message = '<b>Already '+result+'</b>! Request for Case '+case_id+' has been failed.';
+            }
+            $('.alert').removeClass('alert-danger').removeClass('alert-success').addClass('alert-'+alert);
+            $('#response-'+case_id).find('.message').html('<i class="icon fas fa-'+icon+'"></i> '+message);
+            $('#response-'+case_id).fadeIn("slow", function(){
+                setTimeout(function(){
+                    $('#response-'+case_id).fadeOut("slow");
+                }, 4000);
+            });
+        }
+    });
+}
 
 
 // $('.nav-link').on('click', function() {

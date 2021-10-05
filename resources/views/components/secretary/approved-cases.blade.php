@@ -1,5 +1,5 @@
-<?php $page = 'dashboard' ?>
-@extends('layouts.student')
+<?php $page = 'approved-cases' ?>
+@extends('layouts.secretary')
 
 @section('content')
     <!-- Content Header (Page header) -->
@@ -7,7 +7,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Overview of Cases' Status</h1>
+            <h1 class="m-0">Approved Cases</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -23,111 +23,25 @@
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
-        <!-- Small boxes (Stat box) -->
-        <div class="row">
-
-        <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-success">
-              <div class="inner">
-                <h3>{{$data['approved']}}</h3>
-
-                <p><strong>Approved/Active</strong></p>
-                <span>1 Withdrawal</span><br>
-                <span>1 Attendance</span><br>
-                <span>0 MakeUp Paper</span>
-              </div>
-              <div class="icon">
-                <i class="ion ion-bag"></i>
-              </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- ./col -->
-
-          <!--
-          <div class="col-lg-3 col-6">
-            small box  // comment this     
-            <div class="small-box bg-success">
-              <div class="inner">
-                <h3>53<sup style="font-size: 20px">%</sup></h3>
-
-                <p>Completed</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-stats-bars"></i>
-              </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          ./col // comment this
-          -->
-
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-warning">
-              <div class="inner">
-                <h3>{{$data['pending']+$data['forwarded']}}</h3>
-
-                <p><strong>Pending/Forwarded</strong></p>
-                <span>{{$data['pending']}} Pending</span><br>
-                <span>{{$data['forwarded']}} Forwarded</span><br>
-                <span>0 MakeUp Paper</span>
-              </div>
-              <div class="icon">
-                <i class="ion ion-person-add"></i>
-              </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- ./col -->
-
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-info">
-              <div class="inner">
-                <h3>{{$data['withdrawn']}}</h3>
-
-                <p><strong>Withdrawn/Cancelled</strong></p>
-                <span>1 Withdrawal</span><br>
-                <span>1 Attendance</span><br>
-                <span>0 MakeUp Paper</span>
-              </div>
-              <div class="icon">
-                <i class="ion ion-person-add"></i>
-              </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- ./col -->
-
-
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-danger">
-              <div class="inner">
-                <h3>{{$data['declined']}}</h3>
-
-                <p><strong>Declined</strong></p>
-                <span>1 Withdrawal</span><br>
-                <span>1 Attendance</span><br>
-                <span>0 MakeUp Paper</span>
-              </div>
-              <div class="icon">
-                <i class="ion ion-pie-graph"></i>
-              </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- ./col -->
-        </div>
-        <!-- /.row -->
 
         <!-- New Application Button Row -->
         <!-- <div class="row mb-5 mt-0">
           <div class="col-lg-4">
             <a href="{{ route('withdrawal_case') }}" type="button" class="btn btn-lg btn-block bg-gradient-info"><i class="fas fa-plus mr-2"></i>Withdraw Course</a>
           </div>
+            More info 
+            53%
+            Bounce Rate
+
+            More info 
+            44
+            User Registrations
+
+            More info 
+            65
+            Unique Visitors
+
+            More info 
           <div class="col-lg-4">
             <a href="{{ route('attendance_case') }}" type="button" class="btn btn-lg btn-block bg-gradient-warning"><i class="fas fa-plus mr-2"></i>Submit Attendance Case</a>
           </div>
@@ -142,7 +56,7 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Recent Applications</h3>
+                <h3 class="card-title">Approved Cases</h3>
               </div>
               <!-- ./card-header -->
               <div class="card-body">
@@ -152,20 +66,29 @@
                       <th>#</th>
                       <th>Case ID</th>
                       <th>Type</th>
+                      <th>Student Name</th>
+                      <th>Course</th>
                       <th>Status</th>
+                      <!-- <th></th> -->
                     </tr>
                   </thead>
                   <tbody>
                     <?php $c=0 ?>
-                      @foreach($data['cases'] as $case)
+                      @foreach($cases as $case)
                       <tr data-widget="expandable-table" aria-expanded="false">
                         <td>{{++$c}}</td>
                         <td>{{$case->case_id}}</td>
                         <td>{{$case->type}}</td>
+                        <td>{{$case->st_fname.' '.$case->st_lname}}</td>
+                        <td>{{$case->name}}</td>
                         <td>{{$case->status}}</td>
+                        <!-- <td class="text-center">
+                          <a type="button" class="btn bg-gradient-success btn-sm  ml-2"  onclick="">Forward to ADC</a>
+                          <a type="button" class="btn bg-gradient-danger btn-sm  ml-2"  onclick="">View Details</a>
+                        </td> -->
                       </tr>
                       <tr class="expandable-body d-none">
-                        <td colspan="4">
+                        <td colspan="6">
 
                           <div class="row">
                             <div class="col mt-2">
@@ -215,7 +138,8 @@
 
                           <div class="row">
                             <div class="col text-right">
-                              <a type="button" class="btn bg-gradient-danger btn-sm mr-2 ml-2" style="width: 150px" onclick="cancelRequest('{{$case->case_id}}')">Request Cancellation</a>
+                              <a type="button" class="btn bg-gradient-danger btn-sm mr-2 ml-2" style="width: 150px" onclick="declineCase('{{$case->case_id}}')">Decline</a>
+                              <a type="button" class="btn bg-gradient-info btn-sm mr-2" style="width: 150px" onclick="forwardToADC('{{$case->case_id}}')">Forward to ADC</a>
                             </div>
                           </div>
                           <div class="row">
@@ -271,11 +195,12 @@
                       <th>Date</th>
                       <th>Status</th>
                       <th>Remarks</th>
+                      <th></th>
                     </tr>
                   </thead>
                   <tbody>
                     <?php $c=0 ?>
-                    @foreach($data['cases'] as $case)
+                    @foreach($cases as $case)
                       <tr>
                         <td>{{++$c}}</td>
                         <td>{{$case->case_id}}</td>
@@ -283,6 +208,9 @@
                         <td>{{date('d M, Y', strtotime($case->created_at))}}</td>
                         <td><span class="tag tag-success">{{$case->status}}</span></td>
                         <td>{{$case->remarks}}</td>
+                        <td>
+                            <a href="{{route('meetings', ['case'=>$case])}}" type="button" class="btn bg-gradient-info btn-sm" style="width: 130px" onclick="forwardToADC('{{$case->case_id}}')">Schedule Meeting</a>
+                        </td>
                       </tr>
                     @endforeach
                   </tbody>

@@ -33,6 +33,12 @@
 
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+      </li>
+    </ul>
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
 
@@ -272,6 +278,7 @@ for (let i = 0; i<10; i++){
 <!-- <script src="dist/js/demo.js"></script> -->
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="dist/js/pages/dashboard.js"></script>
+<!-- Custom JS -->
 <script src="dist/js/custom.js"></script>
 </body>
 </html>
