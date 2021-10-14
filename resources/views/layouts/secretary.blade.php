@@ -256,9 +256,7 @@
     });
 
     //Date and time picker
-    $('#reservationdatetime').datetimepicker({
-      format: 'DD MMMM, YYYY | L'
-    });
+    $('#reservationdatetime').datetimepicker({ icons: { time: 'far fa-clock'} });
 
     //Date range picker
     $('#reservation').daterangepicker()
@@ -290,13 +288,13 @@
     )
 
     //Timepicker
-    $('#timepickerfrom').datetimepicker({
-      format: 'LT'
-    })
+    // $('#timepickerfrom').datetimepicker({
+    //   format: 's'
+    // })
     //Timepicker
-    $('#timepickerto').datetimepicker({
-      format: 'LT'
-    })
+    // $('#timepickerto').datetimepicker({
+    //   format: 'LT'
+    // })
   })
   // DropzoneJS Demo Code End
 </script>

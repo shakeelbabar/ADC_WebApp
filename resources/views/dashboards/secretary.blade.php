@@ -99,6 +99,46 @@
                             <!-- ./col -->
                             <div class="col">
                               <dl class="row">
+                                @if(true)
+                                    <dt class="col-sm-4">Approval Status</dt>
+                                    <dd class="col-sm-8">
+                                        <table class="table table-bordered ml-0">
+                                            <thead>
+                                                <tr>
+                                                    <th>Jury1</th>
+                                                    <th>Jury2</th>
+                                                    <th>Jury3</th>
+                                                    <th>Instructor</th>
+                                                    <th>Final Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td id="jury1-approval" class="text-<?php if($case->approvals->jury1=='Pending') echo 'warning'; elseif($case->approvals->jury1=='Approved') echo 'info'; else echo 'danger';?>">
+                                                        <i class="fa fa-<?php if($case->approvals->jury1=='Pending') echo 'spinner'; elseif($case->approvals->jury1=='Approved') echo 'check'; else echo 'times';?> mr-2"></i>
+                                                        {{$case->jury1}}
+                                                    </td>
+                                                    <td id="jury2-approval" class="text-<?php if($case->approvals->jury2=='Pending') echo 'warning'; elseif($case->approvals->jury2=='Approved') echo 'info'; else echo 'danger';?>">
+                                                        <i class="fa fa-<?php if($case->approvals->jury2=='Pending') echo 'spinner'; elseif($case->approvals->jury2=='Approved') echo 'check'; else echo 'times';?> mr-2"></i>
+                                                        {{$case->jury2}}
+                                                    </td>
+                                                    <td id="jury3-approval" class="text-<?php if($case->approvals->jury3=='Pending') echo 'warning'; elseif($case->approvals->jury3=='Approved') echo 'info'; else echo 'danger';?>">
+                                                        <i class="fa fa-<?php if($case->approvals->jury3=='Pending') echo 'spinner'; elseif($case->approvals->jury3=='Approved') echo 'check'; else echo 'times';?> mr-2"></i>
+                                                        {{$case->jury3}}
+                                                    </td>
+                                                    <td id="instructor-approval" class="text-<?php if($case->approvals->instructor=='Pending') echo 'warning'; elseif($case->approvals->instructor=='Approved') echo 'info'; else echo 'danger';?>">
+                                                        <i class="fa fa-<?php if($case->approvals->instructor=='Pending') echo 'spinner'; elseif($case->approvals->instructor=='Approved') echo 'check'; else echo 'times';?> mr-2"></i>
+                                                        {{$case->instructor}}
+                                                    </td>
+                                                    <td id="final_status" class="text-<?php if($case->approvals->final_status=='Pending') echo 'warning'; elseif($case->approvals->final_status=='Approved') echo 'success'; else echo 'danger';?>">
+                                                        <i class="fa fa-<?php if($case->approvals->final_status=='Pending') echo 'spinner'; elseif($case->approvals->final_status=='Approved') echo 'check'; else echo 'times';?> fa-lg mr-2"></i>
+                                                        {{$case->final_status}}
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </dd>
+                                @endif
                                 <dt class="col-sm-4">Case ID</dt>
                                 <dd class="col-sm-8">{{$case->case_id}}</dd>
                                 <dt class="col-sm-4">Case Type</dt>

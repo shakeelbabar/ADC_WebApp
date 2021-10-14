@@ -5,6 +5,7 @@ use View;
 use App\Models\Registration;
 use App\Models\Application;
 use App\Models\Case_document;
+use App\Models\Application_status;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -79,13 +80,27 @@ class DashboardController extends Controller
             $cases = $this->getAllApplications();
         }
         foreach($cases as $case){
-            if (Case_document::where(['case_id'=>$case->case_id])->count() > 0){
-                $case->files = Case_document::where(['case_id'=>$case->case_id])->get();
-            }else{
-                $case->files = Null;
-            }
+            $case->files = $this->getCaseFiles($case);
+            $case->approvals = $this->getApprovals($case);
         }
+        // echo '<pre>';
+        // print_r($case->approvals);
+        // die();
         return $cases;
+    }
+
+    private function getApprovals($case){
+        if(Application_status::where(['case_id'=>$case->case_id])->exists())
+            return Application_status::where(['case_id'=>$case->case_id])->first();
+        else
+            return null;
+    }
+
+    private function getCaseFiles($case){
+        if(Case_document::where(['case_id'=>$case->case_id])->exists())
+            return Case_document::where(['case_id'=>$case->case_id])->get();
+        else
+            return null;
     }
     
     private function getCasesCount($status){
