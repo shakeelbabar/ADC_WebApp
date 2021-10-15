@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Admin Login</title>
+  <title>ADC Login</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -19,8 +19,11 @@
   <!-- /.login-logo -->
   <div class="card card-outline card-primary">
     <div class="card-header text-center">
-      <a href="../../index2.html" class="h1"><b>Admin</b>LTE</a>
-    </div>
+      <p  class="h1 mt-1"><b>ADC</b></p>
+      <p href="" class="h5 mt-1 mb-1">Academic Discipline Committee</p>
+      <hr class="mt-0 mb-0 ">
+      <p href="" class="h7 mt-1 mb-0 text-primary">Sukkur IBA University</p>
+      </div>
     <div class="card-body">
       <p class="login-box-msg">Sign in to start your session</p>
 

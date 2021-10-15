@@ -38,8 +38,8 @@ class CaseManagementController extends Controller
                 $status->jury1 = 'Pending';
                 $status->jury2 = 'Pending';
                 $status->jury3 = 'Pending';
-                $status->instructor = 'Pending';
-                $status->final_status = 'Pending';
+                $status->instructor = 'NA';
+                $status->final_status = 'Forwarded';
                 $status->save();
 
                 // Change status to Forwarded
@@ -74,7 +74,6 @@ class CaseManagementController extends Controller
                     $case->final_status = 'Approved';
             $case->save();
         }
-
     }
 
     private function getApprovedCases(){
@@ -83,11 +82,12 @@ class CaseManagementController extends Controller
             ->join('instructors', 'instructors.reg_id','=', 'applications.instructor_id')
             ->join('students', 'students.reg_id', '=', 'applications.student_id')
             ->join('application_statuses', 'application_statuses.case_id', '=', 'applications.case_id')
-            ->select('applications.*', 'application_statuses.*' , 'students.first_name as st_fname', 'students.last_name as st_lname', 'students.reg_id as st_id','courses.name', 'courses.credit_hours', 'instructors.first_name', 'instructors.last_name', 'instructors.reg_id')
+            ->select('applications.*' , 'students.first_name as st_fname', 'students.last_name as st_lname', 'students.reg_id as st_id','courses.name', 'courses.credit_hours', 'instructors.first_name', 'instructors.last_name', 'instructors.reg_id')
             ->where('application_statuses.final_status','=','Approved')
             ->get();
         foreach($cases as $case){
             $case->files = $this->getCaseFiles($case);
+            $case->approvals = $this->getApprovals($case);
         }
         return $cases;
     }

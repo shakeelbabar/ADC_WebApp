@@ -10,10 +10,10 @@
             <h1 class="m-0">Schedule a Meeting</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
+            <!-- <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
               <li class="breadcrumb-item active">Dashboard v1</li>
-            </ol>
+            </ol> -->
           </div><!-- /.col -->
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -83,7 +83,7 @@
                           <dd class="col-sm-6">{{$case['credit_hours']}}</dd>
                           <!-- <input type="hidden" name="credit_hours" id="credit_hours" value="{{$case['credit_hours']}}"> -->
                           <dt class="col-sm-6">Status</dt>
-                          <dd class="col-sm-6">{{$case['status']}}
+                          <dd class="col-sm-6">{{$case['final_status']}}
                             <!-- <input type="text" class="form-control" name="reason" id="reason"> -->
                           </dd>
                           <!-- <input type="hidden" name="date" id="date" value="{{date('d M, Y')}}">
