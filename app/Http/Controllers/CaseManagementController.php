@@ -17,7 +17,7 @@ class CaseManagementController extends Controller
             $case = Application::where(['case_id'=>$request->case_id])->firstOrFail();
             if($case->status!='Withdrawn' && $case->status!='Declined' && $case->status!='Forwarded' && $case->status!='Approved'){
                 $case->status = 'Declined';
-                $case->remarks = 'Case has been decline by Secretary due to certain reasons.';
+                $case->remarks = 'Case has been decline by ADC.';
                 $case->save();
                 echo 'true';
             }else{
@@ -39,7 +39,7 @@ class CaseManagementController extends Controller
                 $status->jury2 = 'Pending';
                 $status->jury3 = 'Pending';
                 $status->instructor = 'NA';
-                $status->final_status = 'Forwarded';
+                $status->final_status = 'Pending';
                 $status->save();
 
                 // Change status to Forwarded
@@ -56,8 +56,11 @@ class CaseManagementController extends Controller
     }
 
     public function approvedCases(){
-        $this->setFinalStatus();
         return View::make('components.secretary.approved-cases')->with(['cases'=>$this->getApprovedCases()]);
+    }
+
+    public function declinedCases(){
+        return View::make('components.secretary.declined-cases')->with(['cases'=>$this->getDeclinedCases()]);
     }
 
     private function setFinalStatus(){
@@ -77,6 +80,7 @@ class CaseManagementController extends Controller
     }
 
     private function getApprovedCases(){
+        $this->setFinalStatus();
         $cases = DB::table('applications')
             ->join('courses','courses.crs_id','=','applications.course_id')
             ->join('instructors', 'instructors.reg_id','=', 'applications.instructor_id')
@@ -84,6 +88,23 @@ class CaseManagementController extends Controller
             ->join('application_statuses', 'application_statuses.case_id', '=', 'applications.case_id')
             ->select('applications.*' , 'students.first_name as st_fname', 'students.last_name as st_lname', 'students.reg_id as st_id','courses.name', 'courses.credit_hours', 'instructors.first_name', 'instructors.last_name', 'instructors.reg_id')
             ->where('application_statuses.final_status','=','Approved')
+            ->get();
+        foreach($cases as $case){
+            $case->files = $this->getCaseFiles($case);
+            $case->approvals = $this->getApprovals($case);
+        }
+        return $cases;
+    }
+
+    private function getDeclinedCases(){
+        $this->setFinalStatus();
+        $cases = DB::table('applications')
+            ->join('courses','courses.crs_id','=','applications.course_id')
+            ->join('instructors', 'instructors.reg_id','=', 'applications.instructor_id')
+            ->join('students', 'students.reg_id', '=', 'applications.student_id')
+            ->join('application_statuses', 'application_statuses.case_id', '=', 'applications.case_id')
+            ->select('applications.*' , 'students.first_name as st_fname', 'students.last_name as st_lname', 'students.reg_id as st_id','courses.name', 'courses.credit_hours', 'instructors.first_name', 'instructors.last_name', 'instructors.reg_id')
+            ->where('application_statuses.final_status','=','Declined')
             ->get();
         foreach($cases as $case){
             $case->files = $this->getCaseFiles($case);

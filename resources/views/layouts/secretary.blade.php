@@ -116,7 +116,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ route('approved-cases') }}" class="nav-link {{$page=='approved-cases'?'active':''}}">
+            <a href="{{ route('adc-approved-cases') }}" class="nav-link {{$page=='adc-approved-cases'?'active':''}}">
               <i class="nav-icon fas fa-check-double text-success"></i>
               <p>
                 Approved Cases
@@ -125,7 +125,16 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ route('approved-cases') }}" class="nav-link {{$page=='schedule-meeting'?'active':''}}">
+            <a href="{{ route('adc-declined-cases') }}" class="nav-link {{$page=='adc-declined-cases'?'active':''}}">
+              <i class="nav-icon fas fa-times text-danger"></i>
+              <p>
+                Declined Cases
+                <!-- <span class="right badge badge-danger">New</span> -->
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link {{$page=='schedule-meeting'?'active':''}}">
               <i class="nav-icon fas fa-video"></i>
               <p>
                 Schedule Meeting

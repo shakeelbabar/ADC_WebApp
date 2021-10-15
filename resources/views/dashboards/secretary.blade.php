@@ -74,125 +74,128 @@
                   </thead>
                   <tbody>
                     <?php $c=0 ?>
-                      @foreach($data['cases'] as $case)
-                      <tr data-widget="expandable-table" aria-expanded="false">
-                        <td>{{++$c}}</td>
-                        <td>{{$case->case_id}}</td>
-                        <td>{{$case->type}}</td>
-                        <td>{{$case->st_fname.' '.$case->st_lname}}</td>
-                        <td>{{$case->name}}</td>
-                        <td>{{$case->status}}</td>
-                        <!-- <td class="text-center">
-                          <a type="button" class="btn bg-gradient-success btn-sm  ml-2"  onclick="">Forward to ADC</a>
-                          <a type="button" class="btn bg-gradient-danger btn-sm  ml-2"  onclick="">View Details</a>
-                        </td> -->
-                      </tr>
-                      <tr class="expandable-body d-none">
-                        <td colspan="6">
+                      <?php foreach($data['cases'] as $case) { ?>
+                        @if($case->approvals!=null && $case->approvals->final_status=='Approved')
+                          <?php continue; ?>
+                        @endif
+                        <tr data-widget="expandable-table" aria-expanded="false">
+                          <td>{{++$c}}</td>
+                          <td>{{$case->case_id}}</td>
+                          <td>{{$case->type}}</td>
+                          <td>{{$case->st_fname.' '.$case->st_lname}}</td>
+                          <td>{{$case->name}}</td>
+                          <td>{{$case->status}}</td>
+                          <!-- <td class="text-center">
+                            <a type="button" class="btn bg-gradient-success btn-sm  ml-2"  onclick="">Forward to ADC</a>
+                            <a type="button" class="btn bg-gradient-danger btn-sm  ml-2"  onclick="">View Details</a>
+                          </td> -->
+                        </tr>
+                        <tr class="expandable-body d-none">
+                          <td colspan="6">
 
-                          <div class="row">
-                            <div class="col mt-2">
-                              <h3>Case Details</h3>
-                            </div>
-                          </div>
-                          <div class="row">
-                            <!-- ./col -->
-                            <div class="col">
-                              <dl class="row">
-                                @if($case->approvals!=null)
-                                    <dt class="col-sm-4">Approval Status</dt>
-                                    <dd class="col-sm-8">
-                                        <table class="table table-bordered ml-0">
-                                            <thead>
-                                                <tr>
-                                                    <th>Jury1</th>
-                                                    <th>Jury2</th>
-                                                    <th>Jury3</th>
-                                                    <!-- <th>Instructor</th> -->
-                                                    <th>Final Status</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td id="jury1-approval" class="text-<?php if($case->approvals->jury1=='Pending') echo 'warning'; elseif($case->approvals->jury1=='Approved') echo 'info'; else echo 'danger';?>">
-                                                        <i class="fa fa-<?php if($case->approvals->jury1=='Pending') echo 'spinner'; elseif($case->approvals->jury1=='Approved') echo 'check'; else echo 'times';?> mr-2"></i>
-                                                        {{$case->approvals->jury1}}
-                                                    </td>
-                                                    <td id="jury2-approval" class="text-<?php if($case->approvals->jury2=='Pending') echo 'warning'; elseif($case->approvals->jury2=='Approved') echo 'info'; else echo 'danger';?>">
-                                                        <i class="fa fa-<?php if($case->approvals->jury2=='Pending') echo 'spinner'; elseif($case->approvals->jury2=='Approved') echo 'check'; else echo 'times';?> mr-2"></i>
-                                                        {{$case->approvals->jury2}}
-                                                    </td>
-                                                    <td id="jury3-approval" class="text-<?php if($case->approvals->jury3=='Pending') echo 'warning'; elseif($case->approvals->jury3=='Approved') echo 'info'; else echo 'danger';?>">
-                                                        <i class="fa fa-<?php if($case->approvals->jury3=='Pending') echo 'spinner'; elseif($case->approvals->jury3=='Approved') echo 'check'; else echo 'times';?> mr-2"></i>
-                                                        {{$case->approvals->jury3}}
-                                                    </td>
-                                                    <!-- <td id="instructor-approval" class="text-<?php if($case->approvals->instructor=='Pending') echo 'warning'; elseif($case->approvals->instructor=='Approved') echo 'info'; else echo 'danger';?>">
-                                                        <i class="fa fa-<?php if($case->approvals->instructor=='Pending') echo 'spinner'; elseif($case->approvals->instructor=='Approved') echo 'check'; else echo 'times';?> mr-2"></i>
-                                                        {{$case->approvals->instructor}}
-                                                    </td> -->
-                                                    <td id="final_status" class="text-<?php if($case->approvals->final_status=='Pending') echo 'warning'; elseif($case->approvals->final_status=='Approved') echo 'success'; else echo 'danger';?>">
-                                                        <i class="fa fa-<?php if($case->approvals->final_status=='Pending') echo 'spinner'; elseif($case->approvals->final_status=='Approved') echo 'check'; else echo 'times';?> fa-lg mr-2"></i>
-                                                        {{$case->approvals->final_status}}
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </dd>
-                                @endif
-                                <dt class="col-sm-4">Case ID</dt>
-                                <dd class="col-sm-8">{{$case->case_id}}</dd>
-                                <dt class="col-sm-4">Case Type</dt>
-                                <dd class="col-sm-8">{{$case->type}}</dd>
-                                <dt class="col-sm-4">Submission Date</dt>
-                                <dd class="col-sm-8">{{date('d M, Y h:i:s', strtotime($case->created_at))}}</dd>
-                                <dt class="col-sm-4">Course</dt>
-                                <dd class="col-sm-8">{{$case->name}}</dd>
-                                <dt class="col-sm-4">Instructor Name</dt>
-                                <dd class="col-sm-8">{{$case->first_name.' '.$case->last_name}}</dd>
-                                <dt class="col-sm-4">Reason</dt>
-                                <dd class="col-sm-8">{{$case->reason}}</dd>
-                                <dt class="col-sm-4">Remarks</dt>
-                                <dd class="col-sm-8">{{$case->remarks}}</dd>
-                                @if ($case->files != Null)
-                                <dt class="col-sm-4">Documents Attached</dt>
-                                  <dd class="col-sm-8">
-                                    <div class="row">
-                                      @foreach ($case->files as $file)
-                                      <div class="col-sm-3 mt-2">
-                                        <div class="position-relative border border-secondary container-img" style="height: 100px; overflow: hidden;">
-                                          <img src="{{asset(Storage::url($file->file))}}" alt="Photo 1" class="img-fluid image-doc" onclick="alert('hello')">
-                                          <div class="middle-doc">
-                                            <a type="button" class="btn btn-secondary btn-sm down-btn" onclick="downloadFile('{{$file->file}}')"><i class="fa fa-download"></i></a>
-                                            <a type="button" class="btn btn-danger btn-sm down-btn"><i class="fa fa-trash-alt"></i></a>
-                                          </div>
-                                        </div>
-                                      </div>
-                                      @endforeach
-                                    </div>
-                                  </dd>
-                                @endif
-                              </dl>
-                            </div>
-                            <!-- ./col -->
-                          </div>
-
-                          <div class="row">
-                            <div class="col text-right">
-                              <a type="button" class="btn bg-gradient-danger btn-sm mr-2 ml-2" style="width: 150px" onclick="declineCase('{{$case->case_id}}')">Decline</a>
-                              <a type="button" class="btn bg-gradient-info btn-sm mr-2" style="width: 150px" onclick="forwardToADC('{{$case->case_id}}')">Forward to ADC</a>
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="col" id="response-{{$case->case_id}}" style="display: none;">
-                              <div class="alert alert-dismissible" style="height: 50px;">
-                              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                              <p class="message"><i class="icon fas fa-times"></i></p>
+                            <div class="row">
+                              <div class="col mt-2">
+                                <h3>Case Details</h3>
                               </div>
                             </div>
-                          </div>
-                        </td>
-                      </tr>
-                      @endforeach
+                            <div class="row">
+                              <!-- ./col -->
+                              <div class="col">
+                                <dl class="row">
+                                  @if($case->approvals!=null)
+                                      <dt class="col-sm-4">Approval Status</dt>
+                                      <dd class="col-sm-8">
+                                          <table class="table table-bordered ml-0">
+                                              <thead>
+                                                  <tr>
+                                                      <th>Jury1</th>
+                                                      <th>Jury2</th>
+                                                      <th>Jury3</th>
+                                                      <!-- <th>Instructor</th> -->
+                                                      <th>Final Status</th>
+                                                  </tr>
+                                              </thead>
+                                              <tbody>
+                                                  <tr>
+                                                      <td id="jury1-approval" class="text-<?php if($case->approvals->jury1=='Pending') echo 'warning'; elseif($case->approvals->jury1=='Approved') echo 'info'; else echo 'danger';?>">
+                                                          <i class="fa fa-<?php if($case->approvals->jury1=='Pending') echo 'spinner'; elseif($case->approvals->jury1=='Approved') echo 'check'; else echo 'times';?> mr-2"></i>
+                                                          {{$case->approvals->jury1}}
+                                                      </td>
+                                                      <td id="jury2-approval" class="text-<?php if($case->approvals->jury2=='Pending') echo 'warning'; elseif($case->approvals->jury2=='Approved') echo 'info'; else echo 'danger';?>">
+                                                          <i class="fa fa-<?php if($case->approvals->jury2=='Pending') echo 'spinner'; elseif($case->approvals->jury2=='Approved') echo 'check'; else echo 'times';?> mr-2"></i>
+                                                          {{$case->approvals->jury2}}
+                                                      </td>
+                                                      <td id="jury3-approval" class="text-<?php if($case->approvals->jury3=='Pending') echo 'warning'; elseif($case->approvals->jury3=='Approved') echo 'info'; else echo 'danger';?>">
+                                                          <i class="fa fa-<?php if($case->approvals->jury3=='Pending') echo 'spinner'; elseif($case->approvals->jury3=='Approved') echo 'check'; else echo 'times';?> mr-2"></i>
+                                                          {{$case->approvals->jury3}}
+                                                      </td>
+                                                      <!-- <td id="instructor-approval" class="text-<?php if($case->approvals->instructor=='Pending') echo 'warning'; elseif($case->approvals->instructor=='Approved') echo 'info'; else echo 'danger';?>">
+                                                          <i class="fa fa-<?php if($case->approvals->instructor=='Pending') echo 'spinner'; elseif($case->approvals->instructor=='Approved') echo 'check'; else echo 'times';?> mr-2"></i>
+                                                          {{$case->approvals->instructor}}
+                                                      </td> -->
+                                                      <td id="final_status" class="text-<?php if($case->approvals->final_status=='Pending') echo 'warning'; elseif($case->approvals->final_status=='Approved') echo 'success'; else echo 'danger';?>">
+                                                          <i class="fa fa-<?php if($case->approvals->final_status=='Pending') echo 'spinner'; elseif($case->approvals->final_status=='Approved') echo 'check'; else echo 'times';?> fa-lg mr-2"></i>
+                                                          {{$case->approvals->final_status}}
+                                                      </td>
+                                                  </tr>
+                                              </tbody>
+                                          </table>
+                                      </dd>
+                                  @endif
+                                  <dt class="col-sm-4">Case ID</dt>
+                                  <dd class="col-sm-8">{{$case->case_id}}</dd>
+                                  <dt class="col-sm-4">Case Type</dt>
+                                  <dd class="col-sm-8">{{$case->type}}</dd>
+                                  <dt class="col-sm-4">Submission Date</dt>
+                                  <dd class="col-sm-8">{{date('d M, Y h:i:s', strtotime($case->created_at))}}</dd>
+                                  <dt class="col-sm-4">Course</dt>
+                                  <dd class="col-sm-8">{{$case->name}}</dd>
+                                  <dt class="col-sm-4">Instructor Name</dt>
+                                  <dd class="col-sm-8">{{$case->first_name.' '.$case->last_name}}</dd>
+                                  <dt class="col-sm-4">Reason</dt>
+                                  <dd class="col-sm-8">{{$case->reason}}</dd>
+                                  <dt class="col-sm-4">Remarks</dt>
+                                  <dd class="col-sm-8">{{$case->remarks}}</dd>
+                                  @if ($case->files != Null)
+                                  <dt class="col-sm-4">Documents Attached</dt>
+                                    <dd class="col-sm-8">
+                                      <div class="row">
+                                        @foreach ($case->files as $file)
+                                        <div class="col-sm-3 mt-2">
+                                          <div class="position-relative border border-secondary container-img" style="height: 100px; overflow: hidden;">
+                                            <img src="{{asset(Storage::url($file->file))}}" alt="Photo 1" class="img-fluid image-doc" onclick="alert('hello')">
+                                            <div class="middle-doc">
+                                              <a type="button" class="btn btn-secondary btn-sm down-btn" onclick="downloadFile('{{$file->file}}')"><i class="fa fa-download"></i></a>
+                                              <a type="button" class="btn btn-danger btn-sm down-btn"><i class="fa fa-trash-alt"></i></a>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        @endforeach
+                                      </div>
+                                    </dd>
+                                  @endif
+                                </dl>
+                              </div>
+                              <!-- ./col -->
+                            </div>
+
+                            <div class="row">
+                              <div class="col text-right">
+                                <a type="button" class="btn bg-gradient-danger btn-sm mr-2 ml-2" style="width: 150px" onclick="declineCase('{{$case->case_id}}')">Decline</a>
+                                <a type="button" class="btn bg-gradient-info btn-sm mr-2" style="width: 150px" onclick="forwardToADC('{{$case->case_id}}')">Forward to ADC</a>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col" id="response-{{$case->case_id}}" style="display: none;">
+                                <div class="alert alert-dismissible" style="height: 50px;">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <p class="message"><i class="icon fas fa-times"></i></p>
+                                </div>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      <?php } ?>
 
                   </tbody>
                 </table>

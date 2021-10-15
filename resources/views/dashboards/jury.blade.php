@@ -1,4 +1,5 @@
-@extends('layouts.jury')
+<?php $page = 'dashboard' ?>
+@extends('layouts.secretary')
 
 @section('content')
     <!-- Content Header (Page header) -->
@@ -9,9 +10,9 @@
             <h1 class="m-0">Dashboard</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
+            <!-- <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Dashboard v1</li>
+              <li class="breadcrumb-item active">Dashboard v1</li> -->
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -22,75 +23,189 @@
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
-        <!-- Small boxes (Stat box) -->
-        <div class="row">
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-info">
-              <div class="inner">
-                <h3>150</h3>
 
-                <p>New Orders</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-bag"></i>
-              </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
+        <!-- New Application Button Row -->
+        <!-- <div class="row mb-5 mt-0">
+          <div class="col-lg-4">
+            <a href="{{ route('withdrawal_case') }}" type="button" class="btn btn-lg btn-block bg-gradient-info"><i class="fas fa-plus mr-2"></i>Withdraw Course</a>
           </div>
-          <!-- ./col -->
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-success">
-              <div class="inner">
-                <h3>53<sup style="font-size: 20px">%</sup></h3>
+            More info 
+            53%
+            Bounce Rate
 
-                <p>Bounce Rate</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-stats-bars"></i>
-              </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- ./col -->
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-warning">
-              <div class="inner">
-                <h3>44</h3>
+            More info 
+            44
+            User Registrations
 
-                <p>User Registrations</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-person-add"></i>
-              </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- ./col -->
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-danger">
-              <div class="inner">
-                <h3>65</h3>
+            More info 
+            65
+            Unique Visitors
 
-                <p>Unique Visitors</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-pie-graph"></i>
-              </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
+            More info 
+          <div class="col-lg-4">
+            <a href="{{ route('attendance_case') }}" type="button" class="btn btn-lg btn-block bg-gradient-warning"><i class="fas fa-plus mr-2"></i>Submit Attendance Case</a>
           </div>
-          <!-- ./col -->
-        </div>
+           <div class="col-lg-4">
+            <a href="{{ route('makeupexam_case') }}" type="button" class="btn btn-lg btn-block bg-gradient-danger"><i class="fas fa-plus mr-2"></i>Appy for Makeup Exam</a>
+          </div>
+        </div> -->
         <!-- /.row -->
-        <!-- Main row -->
+
+        <!-- Expandable Table Row -->
         <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Pending Cases to be responded</h3>
+              </div>
+              <!-- ./card-header -->
+              <div class="card-body">
+                <table class="table table-bordered table-hover">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Case ID</th>
+                      <th>Type</th>
+                      <th>Student ID</th>
+                      <th>Course ID</th>
+                      <th>Status</th>
+                      <!-- <th></th> -->
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php $c=0 ?>
+                      <?php foreach($data['cases'] as $case) { ?>
+                        <tr data-widget="expandable-table" aria-expanded="false">
+                          <td>{{++$c}}</td>
+                          <td>{{$case->case_id}}</td>
+                          <td>{{$case->type}}</td>
+                          <td>{{$case->st_fname.' '.$case->st_lname}}</td>
+                          <td>{{$case->name}}</td>
+                          <td>{{$case->status}}</td>
+                          <!-- <td class="text-center">
+                            <a type="button" class="btn bg-gradient-success btn-sm  ml-2"  onclick="">Forward to ADC</a>
+                            <a type="button" class="btn bg-gradient-danger btn-sm  ml-2"  onclick="">View Details</a>
+                          </td> -->
+                        </tr>
+                        <tr class="expandable-body d-none">
+                          <td colspan="6">
+
+                            <div class="row">
+                              <div class="col mt-2">
+                                <h3>Case Details</h3>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <!-- ./col -->
+                              <div class="col">
+                                <dl class="row">
+                                  @if($case->approvals!=null)
+                                      <dt class="col-sm-4">Approval Status</dt>
+                                      <dd class="col-sm-8">
+                                          <table class="table table-bordered ml-0">
+                                              <thead>
+                                                  <tr>
+                                                      <th>Jury1</th>
+                                                      <th>Jury2</th>
+                                                      <th>Jury3</th>
+                                                      <!-- <th>Instructor</th> -->
+                                                      <th>Final Status</th>
+                                                  </tr>
+                                              </thead>
+                                              <tbody>
+                                                  <tr>
+                                                      <td id="jury1-approval" class="text-<?php if($case->approvals->jury1=='Pending') echo 'warning'; elseif($case->approvals->jury1=='Approved') echo 'info'; else echo 'danger';?>">
+                                                          <i class="fa fa-<?php if($case->approvals->jury1=='Pending') echo 'spinner'; elseif($case->approvals->jury1=='Approved') echo 'check'; else echo 'times';?> mr-2"></i>
+                                                          {{$case->approvals->jury1}}
+                                                      </td>
+                                                      <td id="jury2-approval" class="text-<?php if($case->approvals->jury2=='Pending') echo 'warning'; elseif($case->approvals->jury2=='Approved') echo 'info'; else echo 'danger';?>">
+                                                          <i class="fa fa-<?php if($case->approvals->jury2=='Pending') echo 'spinner'; elseif($case->approvals->jury2=='Approved') echo 'check'; else echo 'times';?> mr-2"></i>
+                                                          {{$case->approvals->jury2}}
+                                                      </td>
+                                                      <td id="jury3-approval" class="text-<?php if($case->approvals->jury3=='Pending') echo 'warning'; elseif($case->approvals->jury3=='Approved') echo 'info'; else echo 'danger';?>">
+                                                          <i class="fa fa-<?php if($case->approvals->jury3=='Pending') echo 'spinner'; elseif($case->approvals->jury3=='Approved') echo 'check'; else echo 'times';?> mr-2"></i>
+                                                          {{$case->approvals->jury3}}
+                                                      </td>
+                                                      <!-- <td id="instructor-approval" class="text-<?php if($case->approvals->instructor=='Pending') echo 'warning'; elseif($case->approvals->instructor=='Approved') echo 'info'; else echo 'danger';?>">
+                                                          <i class="fa fa-<?php if($case->approvals->instructor=='Pending') echo 'spinner'; elseif($case->approvals->instructor=='Approved') echo 'check'; else echo 'times';?> mr-2"></i>
+                                                          {{$case->approvals->instructor}}
+                                                      </td> -->
+                                                      <td id="final_status" class="text-<?php if($case->approvals->final_status=='Pending') echo 'warning'; elseif($case->approvals->final_status=='Approved') echo 'success'; else echo 'danger';?>">
+                                                          <i class="fa fa-<?php if($case->approvals->final_status=='Pending') echo 'spinner'; elseif($case->approvals->final_status=='Approved') echo 'check'; else echo 'times';?> fa-lg mr-2"></i>
+                                                          {{$case->approvals->final_status}}
+                                                      </td>
+                                                  </tr>
+                                              </tbody>
+                                          </table>
+                                      </dd>
+                                  @endif
+                                  <dt class="col-sm-4">Case ID</dt>
+                                  <dd class="col-sm-8">{{$case->case_id}}</dd>
+                                  <dt class="col-sm-4">Case Type</dt>
+                                  <dd class="col-sm-8">{{$case->type}}</dd>
+                                  <dt class="col-sm-4">Submission Date</dt>
+                                  <dd class="col-sm-8">{{date('d M, Y h:i:s', strtotime($case->created_at))}}</dd>
+                                  <dt class="col-sm-4">Course</dt>
+                                  <dd class="col-sm-8">{{$case->name}}</dd>
+                                  <dt class="col-sm-4">Instructor Name</dt>
+                                  <dd class="col-sm-8">{{$case->first_name.' '.$case->last_name}}</dd>
+                                  <dt class="col-sm-4">Reason</dt>
+                                  <dd class="col-sm-8">{{$case->reason}}</dd>
+                                  <dt class="col-sm-4">Remarks</dt>
+                                  <dd class="col-sm-8">{{$case->remarks}}</dd>
+                                  @if ($case->files != Null)
+                                  <dt class="col-sm-4">Documents Attached</dt>
+                                    <dd class="col-sm-8">
+                                      <div class="row">
+                                        @foreach ($case->files as $file)
+                                        <div class="col-sm-3 mt-2">
+                                          <div class="position-relative border border-secondary container-img" style="height: 100px; overflow: hidden;">
+                                            <img src="{{asset(Storage::url($file->file))}}" alt="Photo 1" class="img-fluid image-doc" onclick="alert('hello')">
+                                            <div class="middle-doc">
+                                              <a type="button" class="btn btn-secondary btn-sm down-btn" onclick="downloadFile('{{$file->file}}')"><i class="fa fa-download"></i></a>
+                                              <a type="button" class="btn btn-danger btn-sm down-btn"><i class="fa fa-trash-alt"></i></a>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        @endforeach
+                                      </div>
+                                    </dd>
+                                  @endif
+                                </dl>
+                              </div>
+                              <!-- ./col -->
+                            </div>
+
+                            <div class="row">
+                              <div class="col text-right">
+                                <a type="button" class="btn bg-gradient-danger btn-sm mr-2 ml-2" style="width: 150px" onclick="declineCase('{{$case->case_id}}')">Decline</a>
+                                <a type="button" class="btn bg-gradient-info btn-sm mr-2" style="width: 150px" onclick="approceCase('{{$case->case_id}}')">Approve</a>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col" id="response-{{$case->case_id}}" style="display: none;">
+                                <div class="alert alert-dismissible" style="height: 50px;">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <p class="message"><i class="icon fas fa-times"></i></p>
+                                </div>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      <?php } ?>
+
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
         </div>
+        <!-- Expandable Table Row end -->
+        
         <!-- /.row (main row) -->
       </div><!-- /.container-fluid -->
     </section>
-    <!-- /.content -->
+    <!-- /. Main content -->
 @endsection

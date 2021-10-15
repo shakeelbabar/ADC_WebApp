@@ -71,6 +71,18 @@ class DashboardController extends Controller
         return $cases;
     }
 
+    private function getAllForwardedApplications(){
+        $cases = DB::table('applications')
+            ->join('courses','courses.crs_id','=','applications.course_id')
+            ->join('instructors', 'instructors.reg_id','=', 'applications.instructor_id')
+            ->join('students', 'students.reg_id', '=', 'applications.student_id')
+            ->join('application_statuses', 'application_statuses.case_id', '=', 'applications.case_id')
+            ->select('applications.*' , 'students.first_name as st_fname', 'students.last_name as st_lname', 'students.reg_id as st_id','courses.name', 'courses.credit_hours', 'instructors.first_name', 'instructors.last_name', 'instructors.reg_id')
+            ->where('application_statuses.final_status','=','Pending')
+            ->get();
+        return $cases;    
+    }
+
     private function getApplications(){
         // return Application::where(['student_id'=>Auth::user()->reg_id])->get();
         $cases = null;
@@ -78,6 +90,8 @@ class DashboardController extends Controller
             $cases = $this->getStudentApplications();
         }elseif(Auth::user()->hasRole('secretary')){
             $cases = $this->getAllApplications();
+        }elseif(Auth::user()->hasRole('jury')){
+            $cases = $this->getAllForwardedApplications();
         }
         foreach($cases as $case){
             $case->files = $this->getCaseFiles($case);
