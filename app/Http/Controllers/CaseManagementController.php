@@ -63,6 +63,10 @@ class CaseManagementController extends Controller
         return View::make('components.secretary.declined-cases')->with(['cases'=>$this->getDeclinedCases()]);
     }
 
+    public function approveCase(Request $request){
+        echo $request->case_id
+    }
+
     private function setFinalStatus(){
         foreach(Application_status::all() as $case){
             $counts = array_count_values(array_slice($case->toArray(), 2, 5));
@@ -126,5 +130,4 @@ class CaseManagementController extends Controller
         else
             return null;
     }
-    
 }

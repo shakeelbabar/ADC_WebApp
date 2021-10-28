@@ -83,7 +83,7 @@
                           <td>{{$case->name}}</td>
                           <td>{{$case->status}}</td>
                           <!-- <td class="text-center">
-                            <a type="button" class="btn bg-gradient-success btn-sm  ml-2"  onclick="">Forward to ADC</a>
+                            <a type="button" clas')s="btn bg-gradient-success btn-sm  ml-2"  onclick="">Forward to ADC</a>
                             <a type="button" class="btn bg-gradient-danger btn-sm  ml-2"  onclick="">View Details</a>
                           </td> -->
                         </tr>
@@ -152,7 +152,7 @@
                                   <dt class="col-sm-4">Reason</dt>
                                   <dd class="col-sm-8">{{$case->reason}}</dd>
                                   <dt class="col-sm-4">Remarks</dt>
-                                  <dd class="col-sm-8">{{$case->remarks}}</dd>
+                                  <dd class="col-sm-8"><input type="text" id="remarks" class="form-control"></dd>
                                   @if ($case->files != Null)
                                   <dt class="col-sm-4">Documents Attached</dt>
                                     <dd class="col-sm-8">
@@ -179,7 +179,7 @@
                             <div class="row">
                               <div class="col text-right">
                                 <a type="button" class="btn bg-gradient-danger btn-sm mr-2 ml-2" style="width: 150px" onclick="declineCase('{{$case->case_id}}')">Decline</a>
-                                <a type="button" class="btn bg-gradient-info btn-sm mr-2" style="width: 150px" onclick="approceCase('{{$case->case_id}}')">Approve</a>
+                                <a type="button" class="btn bg-gradient-info btn-sm mr-2" style="width: 150px" onclick="approveCase('{{$case->case_id}}')">Approve</a>
                               </div>
                             </div>
                             <div class="row">

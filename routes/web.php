@@ -64,6 +64,12 @@ Route::group(['middleware'=>['auth', 'role:secretary']], function(){
     Route::get('meetings', [VirtualMeetingController::class, 'scheduleMeeting'])->name('meetings');
 });
 
+// Only for Jury
+Route::group(['middleware'=>['auth', 'role:jury']], function(){
+    Route::get('approve-case', [CaseManagementController::class, 'approveCase'])->name('approve-case');
+});
+
+
 // Route::post('/register', [RegisteredUserController::class, 'store'])->name('register');
 
 require __DIR__.'/auth.php';
