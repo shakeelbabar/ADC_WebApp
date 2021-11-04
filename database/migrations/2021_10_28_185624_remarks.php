@@ -15,6 +15,7 @@ class Remarks extends Migration
     {
         Schema::create('remarks', function(Blueprint $table){
            $table->id();
+           $table->string('case_id');
            $table->string('jury1');
            $table->string('jury2');
            $table->string('jury3');

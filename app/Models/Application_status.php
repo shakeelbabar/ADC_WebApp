@@ -7,5 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Application_status extends Model
 {
+    protected $fillable = ['*'];
     use HasFactory;
 }

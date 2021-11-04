@@ -142,32 +142,32 @@ function forwardToADC(case_id){
 function approveCase(case_id){
     // alert('Case ID: '+case_id);
     // console.log($('#'+case_id).text());
-    // console.log($("#remarks").val());
+    // console.log($("#remarks").val() + "");
     jQuery.ajax({
         url:'/approve-case',
         type:'get',
-        data:'case_id='+case_id+'&remarks='+$('#remarks').val(),
+        data:'case_id='+case_id+'&remarks='+$('#remarks').val()+"",
         success:function(result){
             console.log(result);
-            // if(result=='true'){
-            //     icon = 'check';
-            //     alert = 'info';
-            //     message = '<b>Success!</b> Case with ID '+case_id+' has been forwarded to ADC..';
-            // }else{
-            //     icon = 'times';
-            //     alert = 'danger';
-            //     if(result=='false')
-            //         message = '<b>Failed!</b> Request for Case '+case_id+' has been failed.';
-            //     else
-            //         message = '<b>Already '+result+'</b>! Request for Case '+case_id+' has been failed.';
-            // }
-            // $('.alert').removeClass('alert-danger').removeClass('alert-success').addClass('alert-'+alert);
-            // $('#response-'+case_id).find('.message').html('<i class="icon fas fa-'+icon+'"></i> '+message);
-            // $('#response-'+case_id).fadeIn("slow", function(){
-            //     setTimeout(function(){
-            //         $('#response-'+case_id).fadeOut("slow");
-            //     }, 4000);
-            // });
+            if(result=='true'){
+                icon = 'check';
+                alert = 'info';
+                message = '<b>Success!</b> Case with ID '+case_id+' has been Approved.';
+            }else{
+                icon = 'times';
+                alert = 'danger';
+                if(result=='Approved')
+                    message = '<b>Declined!</b> Case with ID '+case_id+' has been Failed.';
+                else
+                    message = '<b>Already '+result+'</b>! Request for Case '+case_id+' has been failed.';
+            }
+            $('.alert').removeClass('alert-danger').removeClass('alert-success').addClass('alert-'+alert);
+            $('#response-'+case_id).find('.message').html('<i class="icon fas fa-'+icon+'"></i> '+message);
+            $('#response-'+case_id).fadeIn("slow", function(){
+                setTimeout(function(){
+                    $('#response-'+case_id).fadeOut("slow");
+                }, 4000);
+            });
         }
     });
 }

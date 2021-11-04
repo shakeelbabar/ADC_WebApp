@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Judge;
+use App\Models\Remark;
 use App\Models\Application;
 use App\Models\Case_document;
 use App\Models\Application_status;
@@ -42,6 +45,14 @@ class CaseManagementController extends Controller
                 $status->final_status = 'Pending';
                 $status->save();
 
+                // Initialize the Remark Object
+                $remarks = new Remark;
+                $remarks->case_id = $remarks->case_id;
+                $remarks->jury1 = 'NA';
+                $remarks->jury2 = 'NA';
+                $remarks->jury3 = 'NA';
+                $remarks->save();
+
                 // Change status to Forwarded
                 $case->status = 'Forwarded';
                 $case->remarks = 'Case has been forwarded to ADC for approval.';
@@ -64,7 +75,38 @@ class CaseManagementController extends Controller
     }
 
     public function approveCase(Request $request){
-        echo $request->case_id
+        if(Judge::where(['reg_id'=>Auth::user()->reg_id])->exists())
+            $role = strtolower(Judge::where(['reg_id'=>Auth::user()->reg_id])->first()->role);
+
+        // Create Application_Statuses Model Object
+        if(Application_status::where(['case_id'=>$request->case_id])->exists()){
+            $obj = Application_status::where('case_id',$request->case_id)->first();
+            if($obj->$role == 'Approved' || $obj->$role == 'Declined'){
+                echo $obj->$role;
+            }else{
+                $obj->$role='Approved';
+                $obj->save();
+                echo 'true';
+            }
+            // Create Application_Statuses Model Object
+            if(Remark::where(['case_id'=>$request->case_id])->exists()){
+                $remarks = Remark::where('case_id',$request->case_id)->first();
+                $remarks->$role = $request->remarks."";
+                $remarks->save();
+            }
+        }else{
+            echo 'false';
+        }
+            // // Create Application_Statuses Model Object
+            // $obj = Application_status::updateOrCreate(
+            //     ['case_id'=>$request->case_id],
+            //     [$jury=>'Approved']
+            // );
+            // $remarks = Remark::updateOrCreate(
+            //     ['case_id'=>$request->case_id],
+            //     [$jury=>$request->remarks]
+            // );    
+
     }
 
     private function setFinalStatus(){
