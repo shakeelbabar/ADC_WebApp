@@ -141,9 +141,8 @@
             </ul>
           </li>
 
-
           <li class="nav-item">
-            <a href="{{ route('new_case') }}" class="nav-link">
+            <a href="{{ route('student_approved_cases') }}" class="nav-link">
               <i class="nav-icon fas fa-check-double text-success"></i>
               <p>
                 Approved Cases
@@ -151,10 +150,16 @@
               </p>
             </a>
           </li>
-
-
-          
-
+          <li class="nav-item">
+            <a href="{{ route('student_declined_cases') }}" class="nav-link">
+              <i class="nav-icon fas fa-times text-danger"></i>
+              <p>
+                Declined Cases
+                <!-- <span class="right badge badge-danger">New</span> -->
+              </p>
+            </a>
+          </li>
+        
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

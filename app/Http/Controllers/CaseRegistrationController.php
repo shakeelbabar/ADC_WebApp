@@ -260,7 +260,7 @@ class CaseRegistrationController extends Controller
         $case->instructor_id = $ins->reg_id;
         $case->reason = $request->reason;
         $case->status = 'Pending';
-        $case->remarks = 'Submitted to ADC Secretary for Remarks';
+        $case->remarks = 'Submitted to ADC Secretary.';
         // Save Object into Database Model
         $case->save();
 

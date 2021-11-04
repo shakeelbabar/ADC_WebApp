@@ -157,7 +157,10 @@
                   </thead>
                   <tbody>
                     <?php $c=0 ?>
-                      @foreach($data['cases'] as $case)
+                    <?php foreach($data['cases'] as $case) { ?>
+                        @if($case->approvals!=null && ($case->approvals->final_status=='Approved' || $case->approvals->final_status=='Declined'))
+                          <?php continue; ?>
+                        @endif
                       <tr data-widget="expandable-table" aria-expanded="false">
                         <td>{{++$c}}</td>
                         <td>{{$case->case_id}}</td>
@@ -176,6 +179,68 @@
                             <!-- ./col -->
                             <div class="col">
                               <dl class="row">
+                                @if($case->approvals!=null)
+                                        <dt class="col-sm-4">Approval Status</dt>
+                                        <dd class="col-sm-8">
+                                          <!-- <ul class="unorded-list unstyled">
+                                            <li>
+                                              <h5>Jury1</h5>
+                                              <p class="mb-0">Status: <strong>Approved</strong></p>
+                                              <p class="mb-0">Remarks: <span>Some Remarks would go here</span></p>
+                                            </li>
+                                            <li>
+                                              <h4>Jury1</h4>
+                                              <p class="mb-0">Status: <strong>Approved</strong></p>
+                                              <p class="mb-0">Remarks: <span>Some Remarks would go here</span></p>
+                                            </li>
+                                            <li>
+                                              <h4>Jury1</h4>
+                                              <p class="mb-0">Status: <strong>Approved</strong></p>
+                                              <p class="mb-0">Remarks: <span>Some Remarks would go here</span></p>
+                                            </li>
+                                          </ul> -->
+                                            <dl class="row">
+                                              <dd class="col-sm-4 mb-0 mt-0">
+                                                <p class="h5 mb-0">Jury 1</p>
+                                                <p>Status: 
+                                                  <span class="col text-<?php if($case->approvals->jury1=='Pending') echo 'warning'; elseif($case->approvals->jury1=='Approved') echo 'info'; else echo 'danger';?>">
+                                                  <i class="fa fa-<?php if($case->approvals->jury1=='Pending') echo 'spinner'; elseif($case->approvals->jury1=='Approved') echo 'check'; else echo 'times';?> mr-2"></i>
+                                                  <strong> {{$case->approvals->jury1}} </strong>
+                                                  </span>
+                                                </p>
+                                              </dd>
+                                              <dd class="col-sm-8 mb-0">
+                                                <p class="mb-1 mt-1"><b>Remarks:</b> {{$case->adc_remarks->jury1}} </p>
+                                              </dd>
+                                              <dd class="col-sm-4 mb-0">
+                                                <p class="h5 mb-0">Jury 2</p>
+                                                <p>Status: 
+                                                  <span class="col text-<?php if($case->approvals->jury2=='Pending') echo 'warning'; elseif($case->approvals->jury2=='Approved') echo 'info'; else echo 'danger';?>">
+                                                  <i class="fa fa-<?php if($case->approvals->jury2=='Pending') echo 'spinner'; elseif($case->approvals->jury2=='Approved') echo 'check'; else echo 'times';?> mr-2"></i>
+                                                  <strong> {{$case->approvals->jury2}} </strong>
+                                                  </span>
+                                                </p>
+                                              </dd>
+                                              <dd class="col-sm-8 mb-0">
+                                                <p class="mb-1 mt-1"><b>Remarks:</b> {{$case->adc_remarks->jury2}} </p>
+                                              </dd>
+                                              <dd class="col-sm-4 mb-0">
+                                                <p class="h5 mb-0">Jury 3</p>
+                                                <p>Status: 
+                                                  <span class="col text-<?php if($case->approvals->jury3=='Pending') echo 'warning'; elseif($case->approvals->jury3=='Approved') echo 'info'; else echo 'danger';?>">
+                                                  <i class="fa fa-<?php if($case->approvals->jury3=='Pending') echo 'spinner'; elseif($case->approvals->jury3=='Approved') echo 'check'; else echo 'times';?> mr-2"></i>
+                                                  <strong> {{$case->approvals->jury3}} </strong>
+                                                  </span>
+                                                </p>
+                                              </dd>
+                                              <dd class="col-sm-8 mb-0">
+                                                <p class="mb-1 mt-1"><b>Remarks:</b> {{$case->adc_remarks->jury3}} </p>
+                                              </dd>
+                                            </dl>
+                                        </dd>
+                                        <dt class="col-sm-4">Final Status</dt>
+                                        <dd class="col-sm-8 h4 col text-<?php if($case->approvals->final_status=='Pending') echo 'warning'; elseif($case->approvals->final_status=='Approved') echo 'info'; else echo 'danger';?>"><b>{{$case->approvals->final_status}}</b></dd>
+                                @endif
                                 <dt class="col-sm-4">Case ID</dt>
                                 <dd class="col-sm-8">{{$case->case_id}}</dd>
                                 <dt class="col-sm-4">Case Type</dt>
@@ -197,7 +262,7 @@
                                       @foreach ($case->files as $file)
                                       <div class="col-sm-3 mt-2">
                                         <div class="position-relative border border-secondary container-img" style="height: 100px; overflow: hidden;">
-                                          <img src="{{asset(Storage::url($file->file))}}" alt="Photo 1" class="img-fluid image-doc" onclick="alert('hello')">
+                                          <img src="{{asset(Storage::url($file->file))}}" alt="document" class="img-fluid image-doc" onclick="alert('hello')">
                                           <div class="middle-doc">
                                             <a type="button" class="btn btn-secondary btn-sm down-btn" onclick="downloadFile('{{$file->file}}')"><i class="fa fa-download"></i></a>
                                             <a type="button" class="btn btn-danger btn-sm down-btn"><i class="fa fa-trash-alt"></i></a>
@@ -228,7 +293,7 @@
                           </div>
                         </td>
                       </tr>
-                      @endforeach
+                      <?php } ?>
 
                   </tbody>
                 </table>

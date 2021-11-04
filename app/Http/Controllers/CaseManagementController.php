@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class CaseManagementController extends Controller
 {
-    public function declineCase(Request $request){
+    public function declineCaseBySecretary(Request $request){
         try{
             $case = Application::where(['case_id'=>$request->case_id])->firstOrFail();
             if($case->status!='Withdrawn' && $case->status!='Declined' && $case->status!='Forwarded' && $case->status!='Approved'){
@@ -47,7 +47,7 @@ class CaseManagementController extends Controller
 
                 // Initialize the Remark Object
                 $remarks = new Remark;
-                $remarks->case_id = $remarks->case_id;
+                $remarks->case_id = $request->case_id;
                 $remarks->jury1 = 'NA';
                 $remarks->jury2 = 'NA';
                 $remarks->jury3 = 'NA';
@@ -67,11 +67,22 @@ class CaseManagementController extends Controller
     }
 
     public function approvedCases(){
-        return View::make('components.secretary.approved-cases')->with(['cases'=>$this->getApprovedCases()]);
-    }
+        if(Auth::user()->hasRole('secretary'))
+            return View::make('components.secretary.approved-cases')->with(['cases'=>$this->getApprovedCases()]);
+        else if(Auth::user()->hasRole('jury'))
+            return View::make('components.jury.approved-cases')->with(['cases'=>$this->getApprovedCases()]);
+        else if(Auth::user()->hasRole('student'))
+            return View::make('components.student.approved-cases')->with(['cases'=>$this->getStudentApprovedCases()]);
+        }
 
     public function declinedCases(){
-        return View::make('components.secretary.declined-cases')->with(['cases'=>$this->getDeclinedCases()]);
+        if(Auth::user()->hasRole('secretary'))
+            return View::make('components.secretary.declined-cases')->with(['cases'=>$this->getDeclinedCases()]);
+        else if(Auth::user()->hasRole('jury'))
+            return View::make('components.jury.declined-cases')->with(['cases'=>$this->getDeclinedCases()]);
+        else if(Auth::user()->hasRole('student'))
+            return View::make('components.student.declined-cases')->with(['cases'=>$this->getStudentDeclinedCases()]);
+        
     }
 
     public function approveCase(Request $request){
@@ -87,12 +98,47 @@ class CaseManagementController extends Controller
                 $obj->$role='Approved';
                 $obj->save();
                 echo 'true';
+                // Create Application_Statuses Model Object
+                if(Remark::where(['case_id'=>$request->case_id])->exists()){
+                    $remarks = Remark::where('case_id',$request->case_id)->first();
+                    $remarks->$role = $request->remarks."";
+                    $remarks->save();
+                }
             }
-            // Create Application_Statuses Model Object
-            if(Remark::where(['case_id'=>$request->case_id])->exists()){
-                $remarks = Remark::where('case_id',$request->case_id)->first();
-                $remarks->$role = $request->remarks."";
-                $remarks->save();
+        }else{
+            echo 'false';
+        }
+            // // Create Application_Statuses Model Object
+            // $obj = Application_status::updateOrCreate(
+            //     ['case_id'=>$request->case_id],
+            //     [$jury=>'Approved']
+            // );
+            // $remarks = Remark::updateOrCreate(
+            //     ['case_id'=>$request->case_id],
+            //     [$jury=>$request->remarks]
+            // );    
+
+    }
+
+    public function declineCase(Request $request){
+        if(Judge::where(['reg_id'=>Auth::user()->reg_id])->exists())
+            $role = strtolower(Judge::where(['reg_id'=>Auth::user()->reg_id])->first()->role);
+
+        // Create Application_Statuses Model Object
+        if(Application_status::where(['case_id'=>$request->case_id])->exists()){
+            $obj = Application_status::where('case_id',$request->case_id)->first();
+            if($obj->$role == 'Approved' || $obj->$role == 'Declined'){
+                echo $obj->$role;
+            }else{
+                $obj->$role='Declined';
+                $obj->save();
+                echo 'true';
+                // Create Application_Statuses Model Object
+                if(Remark::where(['case_id'=>$request->case_id])->exists()){
+                    $remarks = Remark::where('case_id',$request->case_id)->first();
+                    $remarks->$role = $request->remarks."";
+                    $remarks->save();
+                }
             }
         }else{
             echo 'false';
@@ -111,16 +157,17 @@ class CaseManagementController extends Controller
 
     private function setFinalStatus(){
         foreach(Application_status::all() as $case){
-            $counts = array_count_values(array_slice($case->toArray(), 2, 5));
-            if(array_key_exists('Pending',$counts))
+            $counts = array_count_values(array_slice($case->toArray(), 2, 4));
+            if(array_key_exists('Pending',$counts)){
                 if($counts['Pending']>1)
                     $case->final_status = 'Pending';
-            elseif(array_key_exists('Declined',$counts))
-                if($counts['Declined']>2)
+            }elseif(array_key_exists('Declined',$counts)){
+                if($counts['Declined']>1)
                     $case->final_status = 'Declined';
-            elseif(array_key_exists('Approved',$counts))
-                if($counts['Approved']>2)
+            }elseif(array_key_exists('Approved',$counts)){
+                if($counts['Approved']>1)
                     $case->final_status = 'Approved';
+            }
             $case->save();
         }
     }
@@ -138,6 +185,7 @@ class CaseManagementController extends Controller
         foreach($cases as $case){
             $case->files = $this->getCaseFiles($case);
             $case->approvals = $this->getApprovals($case);
+            $case->adc_remarks = $this->getRemarks($case);
         }
         return $cases;
     }
@@ -155,6 +203,45 @@ class CaseManagementController extends Controller
         foreach($cases as $case){
             $case->files = $this->getCaseFiles($case);
             $case->approvals = $this->getApprovals($case);
+            $case->adc_remarks = $this->getRemarks($case);
+        }
+        return $cases;
+    }
+
+    private function getStudentApprovedCases(){
+        $this->setFinalStatus();
+        $cases = DB::table('applications')
+            ->join('courses','courses.crs_id','=','applications.course_id')
+            ->join('instructors', 'instructors.reg_id','=', 'applications.instructor_id')
+            ->join('students', 'students.reg_id', '=', 'applications.student_id')
+            ->join('application_statuses', 'application_statuses.case_id', '=', 'applications.case_id')
+            ->select('applications.*' , 'students.first_name as st_fname', 'students.last_name as st_lname', 'students.reg_id as st_id','courses.name', 'courses.credit_hours', 'instructors.first_name', 'instructors.last_name', 'instructors.reg_id')
+            ->where('application_statuses.final_status','=','Approved')
+            ->where('applications.student_id', '=',Auth::user()->reg_id)
+            ->get();
+        foreach($cases as $case){
+            $case->files = $this->getCaseFiles($case);
+            $case->approvals = $this->getApprovals($case);
+            $case->adc_remarks = $this->getRemarks($case);
+        }
+        return $cases;
+    }
+
+    private function getStudentDeclinedCases(){
+        $this->setFinalStatus();
+        $cases = DB::table('applications')
+            ->join('courses','courses.crs_id','=','applications.course_id')
+            ->join('instructors', 'instructors.reg_id','=', 'applications.instructor_id')
+            ->join('students', 'students.reg_id', '=', 'applications.student_id')
+            ->join('application_statuses', 'application_statuses.case_id', '=', 'applications.case_id')
+            ->select('applications.*' , 'students.first_name as st_fname', 'students.last_name as st_lname', 'students.reg_id as st_id','courses.name', 'courses.credit_hours', 'instructors.first_name', 'instructors.last_name', 'instructors.reg_id')
+            ->where('application_statuses.final_status','=','Declined')
+            ->where('applications.student_id', '=', Auth::user()->reg_id)
+            ->get();
+        foreach($cases as $case){
+            $case->files = $this->getCaseFiles($case);
+            $case->approvals = $this->getApprovals($case);
+            $case->adc_remarks = $this->getRemarks($case);
         }
         return $cases;
     }
@@ -169,6 +256,13 @@ class CaseManagementController extends Controller
     private function getCaseFiles($case){
         if(Case_document::where(['case_id'=>$case->case_id])->exists())
             return Case_document::where(['case_id'=>$case->case_id])->get();
+        else
+            return null;
+    }
+
+    private function getRemarks($case){
+        if(Remark::where(['case_id'=>$case->case_id])->exists())
+            return Remark::where(['case_id'=>$case->case_id])->get();
         else
             return null;
     }

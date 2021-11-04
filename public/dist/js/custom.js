@@ -75,7 +75,7 @@ function cancelRequest(case_id){
     });
 }
 
-function declineCase(case_id){
+function declineCaseBySecretary(case_id){
     // alert('Case ID: '+case_id);
     // console.log($('#'+case_id).text());
     jQuery.ajax({
@@ -137,18 +137,47 @@ function forwardToADC(case_id){
     });
 }
 
-
+function declineCase(case_id){
+    // alert('Case ID: '+case_id);
+    console.log(case_id);
+    jQuery.ajax({
+        url:'/decline-case',
+        type:'get',
+        data:'case_id='+case_id+'&remarks='+$('#remarks-'+case_id).val(),
+        success:function(result){
+            if(result=='true'){
+                icon = 'check';
+                alert = 'info';
+                message = '<b>Success!</b> Case with ID '+case_id+' has been declined';
+            }else{
+                icon = 'times';
+                alert = 'danger';
+                if(result=='false')
+                    message = '<b>Failed!</b> Decline request for Case '+case_id+' has been failed.';
+                else
+                    message = '<b>Already '+result+'</b>! Decline request for Case '+case_id+' has been failed.';
+            }
+            $('.alert').removeClass('alert-danger').removeClass('alert-success').addClass('alert-'+alert);
+            $('#response-'+case_id).find('.message').html('<i class="icon fas fa-'+icon+'"></i> '+message);
+            $('#response-'+case_id).fadeIn("slow", function(){
+                setTimeout(function(){
+                    $('#response-'+case_id).fadeOut("slow");
+                }, 4000);
+            });
+        }
+    });
+}
 
 function approveCase(case_id){
     // alert('Case ID: '+case_id);
     // console.log($('#'+case_id).text());
-    // console.log($("#remarks").val() + "");
+    // console.log($('#remarks-'+case_id).val());
     jQuery.ajax({
         url:'/approve-case',
         type:'get',
-        data:'case_id='+case_id+'&remarks='+$('#remarks').val()+"",
+        data:'case_id='+case_id+'&remarks='+$('#remarks-'+case_id).val(),
         success:function(result){
-            console.log(result);
+            // console.log(result);
             if(result=='true'){
                 icon = 'check';
                 alert = 'info';
@@ -156,8 +185,8 @@ function approveCase(case_id){
             }else{
                 icon = 'times';
                 alert = 'danger';
-                if(result=='Approved')
-                    message = '<b>Declined!</b> Case with ID '+case_id+' has been Failed.';
+                if(result=='false')
+                    message = '<b>Failed!</b> Case with ID '+case_id+' has been Failed.';
                 else
                     message = '<b>Already '+result+'</b>! Request for Case '+case_id+' has been failed.';
             }

@@ -138,7 +138,7 @@
                       <a href="{{url()->previous()}}" class="btn btn-block bg-gradient-warning " ><i class="fa fa-arrow-left mr-1"></i> Back</a>
                     </div>
                       <div class="col-lg-3 mb-0">
-                      <input type="submit" name="submit" value="Generate Meeting Link" class="btn bg-gradient-info btn-block">
+                      <input type="button" name="link-btn" value="Generate Meeting Link" class="btn bg-gradient-info btn-block" onclick="generateLink('{{$case['case_id']}}')">;
                     </div>
                   </div>
                 </form>

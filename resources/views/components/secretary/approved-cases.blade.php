@@ -74,7 +74,9 @@
                       <th>Jury3</th>
                       <th>Final Status</th>
                       <!-- <th>Remarks</th> -->
+                      @if(Auth::user()->hasRole('secretary'))
                       <th></th>
+                        @endif
                     </tr>
                   </thead>
                   <tbody>
@@ -110,9 +112,11 @@
                           <!-- <pre> -->
                             <?php $case = array_merge((array)$case, $case->approvals->toArray());?>
                           <!-- </pre> -->
-                        <td class="text-right">
-                            <a href="{{route('meetings', ['case'=>$case])}}" type="button" class="btn bg-gradient-info btn-sm mr-2" style="width: 130px" >Schedule Meeting</a>
-                        </td>
+                        @if(Auth::user()->hasRole('secretary'))
+                          <td class="text-right">
+                              <a href="{{route('meetings', ['case'=>$case])}}" type="button" class="btn bg-gradient-info btn-sm mr-2" style="width: 130px" >Schedule Meeting</a>
+                          </td>
+                        @endif
                       </tr>
                     @endforeach
                   </tbody>

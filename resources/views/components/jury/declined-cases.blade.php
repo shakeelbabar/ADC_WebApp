@@ -1,5 +1,5 @@
-<?php $page = 'adc-declined-cases' ?>
-@extends('layouts.secretary')
+<?php $page = 'declined-cases' ?>
+@extends('layouts.jury')
 
 @section('content')
     <!-- Content Header (Page header) -->

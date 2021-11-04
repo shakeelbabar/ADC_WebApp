@@ -1,5 +1,5 @@
-<?php $page = 'adc-declined-cases' ?>
-@extends('layouts.secretary')
+<?php $page = 'approved-cases' ?>
+@extends('layouts.jury')
 
 @section('content')
     <!-- Content Header (Page header) -->
@@ -7,7 +7,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Declined Cases by ADC</h1>
+            <h1 class="m-0">Approved Cases by ADC</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <!-- <ol class="breadcrumb float-sm-right">
@@ -74,6 +74,9 @@
                       <th>Jury3</th>
                       <th>Final Status</th>
                       <!-- <th>Remarks</th> -->
+                      @if(Auth::user()->hasRole('secretary'))
+                      <th></th>
+                        @endif
                     </tr>
                   </thead>
                   <tbody>
@@ -109,9 +112,11 @@
                           <!-- <pre> -->
                             <?php $case = array_merge((array)$case, $case->approvals->toArray());?>
                           <!-- </pre> -->
-                        <!-- <td class="text-right">
-                            <a href="{{route('meetings', ['case'=>$case])}}" type="button" class="btn bg-gradient-info btn-sm mr-2" style="width: 130px" >Schedule Meeting</a>
-                        </td> -->
+                        @if(Auth::user()->hasRole('secretary'))
+                          <td class="text-right">
+                              <a href="{{route('meetings', ['case'=>$case])}}" type="button" class="btn bg-gradient-info btn-sm mr-2" style="width: 130px" >Schedule Meeting</a>
+                          </td>
+                        @endif
                       </tr>
                     @endforeach
                   </tbody>
