@@ -201,6 +201,26 @@ function approveCase(case_id){
     });
 }
 
+function generateLink(case_id){
+    console.log(case_id);
+    var datetime = new Date($('#meetingdatetime').val());
+    var duration = $('#meetingduration').val();
+    if($('#meetingdatetime').val()=="" || $('#meetingduration').val()== ""){
+        $('#meetingtimeerror').fadeIn("slow", function(){
+            setTimeout(function(){
+                $('#meetingtimeerror').fadeOut("slow");
+            }, 2000);
+        });
+    }else{
+        // console.log(datetime.toISOString());  // 2021-11-15T13:13:00.000Z
+        // console.log(datetime.toUTCString());  // Mon, 15 Nov 2021 13:13:00 GMT
+        // console.log(datetime.toTimeString()); // 18:13:00 GMT+0500 (Pakistan Standard Time)
+        // console.log(datetime.toDateString()); // Mon Nov 15 2021
+
+        console.log(duration);
+    }
+}
+
 // $('.nav-link').on('click', function() {
 //     $(this).addClass('active');
 //     var $parent = $(this).parent();

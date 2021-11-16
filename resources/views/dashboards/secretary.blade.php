@@ -203,7 +203,7 @@
 
                             <div class="row">
                               <div class="col text-right">
-                                <a type="button" class="btn bg-gradient-danger btn-sm mr-2 ml-2" style="width: 150px" onclick="declineCase('{{$case->case_id}}')">Decline</a>
+                                <a type="button" class="btn bg-gradient-secondary btn-sm mr-2 ml-2" style="width: 150px" onclick="suggestChanges('{{$case->case_id}}')">Suggest Changes</a>
                                 <a type="button" class="btn bg-gradient-info btn-sm mr-2" style="width: 150px" onclick="forwardToADC('{{$case->case_id}}')">Forward to ADC</a>
                               </div>
                             </div>

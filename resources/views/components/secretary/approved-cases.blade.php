@@ -57,7 +57,7 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Generate Meetings for Cases</h3>
+                <h3 class="card-title">Approved Cases by ADC for further proceedings.</h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body table-responsive p-0">

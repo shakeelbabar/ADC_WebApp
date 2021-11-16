@@ -262,7 +262,7 @@ class CaseManagementController extends Controller
 
     private function getRemarks($case){
         if(Remark::where(['case_id'=>$case->case_id])->exists())
-            return Remark::where(['case_id'=>$case->case_id])->get();
+            return Remark::where(['case_id'=>$case->case_id])->first();
         else
             return null;
     }

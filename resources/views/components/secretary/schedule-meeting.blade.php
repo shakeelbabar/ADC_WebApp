@@ -97,7 +97,7 @@
                         <div class="form-group">
                         <label>Date and time of Meeting</label>
                             <div class="input-group date" id="reservationdatetime" data-target-input="nearest">
-                                <input type="text" class="form-control datetimepicker-input" data-target="#reservationdatetime">
+                                <input type="text" class="form-control datetimepicker-input" id="meetingdatetime" data-target="#reservationdatetime">
                                 <div class="input-group-append" data-target="#reservationdatetime" data-toggle="datetimepicker">
                                     <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
                                 </div>
@@ -109,8 +109,8 @@
                         <label>Meeting Minutes Duration</label>
                           <div class="row">
                             <div class="col-5">
-                              <div class="input-group date" id="timepickerfrom" data-target-input="nearest">
-                                <input type="number" min=1 max=120 class="form-control" data-target="#timepickerfrom">
+                              <div class="input-group date" data-target-input="nearest">
+                                <input type="number" min=1 max=120 class="form-control" id="meetingduration" data-target="#timepickerfrom">
                                 <div class="input-group-append" data-target="#timepickerfrom" data-toggle="datetimepicker">
                                   <div class="input-group-text left"><i class="far fa-clock"></i></div>
                                 </div>
@@ -139,6 +139,14 @@
                     </div>
                       <div class="col-lg-3 mb-0">
                       <input type="button" name="link-btn" value="Generate Meeting Link" class="btn bg-gradient-info btn-block" onclick="generateLink('{{$case['case_id']}}')">;
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col" id="meetingtimeerror" style="display: none;">
+                      <div class="alert alert-dismissible alert-warning" style="height: 50px;">
+                      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                      <p class="message"><i class="icon fas fa-times"></i> Please Enter valid meeting schedule Date, Time and Duration.</p>
+                      </div>
                     </div>
                   </div>
                 </form>

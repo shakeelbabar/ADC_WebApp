@@ -57,11 +57,11 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Generate Meetings for Cases</h3>
+                <h3 class="card-title">Declined Cases by ADC with remarks of each ADC Jury Member</h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body table-responsive p-0">
-                <table class="table table-hover text-nowrap">
+                <table class="table table-hover">
                   <thead>
                     <tr>
                       <th style="width:10px;">#</th>
@@ -86,23 +86,26 @@
                         <td>{{date('d M, Y', strtotime($case->created_at))}}</td> 
                         <!-- <td><span class="tag tag-success">{{$case->approvals->final_status}}</span></td> -->
                         <!-- <td>{{$case->remarks}}</td> -->
-                        <td id="jury1-approval" class="text-<?php if($case->approvals->jury1=='Pending') echo 'warning'; elseif($case->approvals->jury1=='Approved') echo 'info'; else echo 'danger';?>">
+                        <td id="jury1-approval" style="min-width: 120px;" class="text-<?php if($case->approvals->jury1=='Pending') echo 'warning'; elseif($case->approvals->jury1=='Approved') echo 'info'; else echo 'danger';?>">
                           <i class="fa fa-<?php if($case->approvals->jury1=='Pending') echo 'spinner'; elseif($case->approvals->jury1=='Approved') echo 'check'; else echo 'times';?> mr-2"></i>
                             {{$case->approvals->jury1}}
+                            <p class="text-dark">Remarks: {{$case->adc_remarks->jury1}}</p>
                         </td>
-                        <td id="jury2-approval" class="text-<?php if($case->approvals->jury2=='Pending') echo 'warning'; elseif($case->approvals->jury2=='Approved') echo 'info'; else echo 'danger';?>">
+                        <td id="jury2-approval" style="min-width: 120px;" class="text-<?php if($case->approvals->jury2=='Pending') echo 'warning'; elseif($case->approvals->jury2=='Approved') echo 'info'; else echo 'danger';?>">
                           <i class="fa fa-<?php if($case->approvals->jury2=='Pending') echo 'spinner'; elseif($case->approvals->jury2=='Approved') echo 'check'; else echo 'times';?> mr-2"></i>
                             {{$case->approvals->jury2}}
+                            <p class="text-dark">Remarks: {{$case->adc_remarks->jury2}}</p>
                         </td>
-                        <td id="jury3-approval" class="text-<?php if($case->approvals->jury3=='Pending') echo 'warning'; elseif($case->approvals->jury3=='Approved') echo 'info'; else echo 'danger';?>">
+                        <td id="jury3-approval" style="min-width: 120px;" class="text-<?php if($case->approvals->jury3=='Pending') echo 'warning'; elseif($case->approvals->jury3=='Approved') echo 'info'; else echo 'danger';?>">
                             <i class="fa fa-<?php if($case->approvals->jury3=='Pending') echo 'spinner'; elseif($case->approvals->jury3=='Approved') echo 'check'; else echo 'times';?> mr-2"></i>
                             {{$case->approvals->jury3}}
+                            <p class="text-dark">Remarks: {{$case->adc_remarks->jury3}}</p>
                           </td>
                           <!-- <td id="instructor-approval" class="text-<?php if($case->approvals->instructor=='Pending') echo 'warning'; elseif($case->approvals->instructor=='Approved') echo 'info'; else echo 'danger';?>">
                             <i class="fa fa-<?php if($case->approvals->instructor=='Pending') echo 'spinner'; elseif($case->approvals->instructor=='Approved') echo 'check'; else echo 'times';?> mr-2"></i>
                             {{$case->approvals->instructor}}
                           </td> -->
-                          <td id="final_status" class="text-<?php if($case->approvals->final_status=='Pending') echo 'warning'; elseif($case->approvals->final_status=='Approved') echo 'success'; else echo 'danger';?>">
+                          <td id="final_status" style="min-width: 150px;" class="text-<?php if($case->approvals->final_status=='Pending') echo 'warning'; elseif($case->approvals->final_status=='Approved') echo 'success'; else echo 'danger';?>">
                             <i class="fa fa-<?php if($case->approvals->final_status=='Pending') echo 'spinner'; elseif($case->approvals->final_status=='Approved') echo 'check'; else echo 'times';?> fa-lg mr-2"></i>
                             {{$case->approvals->final_status}}
                           </td>
