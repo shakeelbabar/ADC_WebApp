@@ -73,7 +73,7 @@ class CaseManagementController extends Controller
             return View::make('components.jury.approved-cases')->with(['cases'=>$this->getApprovedCases()]);
         else if(Auth::user()->hasRole('student'))
             return View::make('components.student.approved-cases')->with(['cases'=>$this->getStudentApprovedCases()]);
-        }
+    }
 
     public function declinedCases(){
         if(Auth::user()->hasRole('secretary'))
@@ -161,10 +161,10 @@ class CaseManagementController extends Controller
             if(array_key_exists('Pending',$counts)){
                 if($counts['Pending']>1)
                     $case->final_status = 'Pending';
-            }elseif(array_key_exists('Declined',$counts)){
+            }if(array_key_exists('Declined',$counts)){
                 if($counts['Declined']>1)
                     $case->final_status = 'Declined';
-            }elseif(array_key_exists('Approved',$counts)){
+            }if(array_key_exists('Approved',$counts)){
                 if($counts['Approved']>1)
                     $case->final_status = 'Approved';
             }

@@ -142,7 +142,7 @@
           </li>
 
           <li class="nav-item">
-            <a href="{{ route('student_approved_cases') }}" class="nav-link">
+            <a href="{{ route('student_approved_cases') }}" class="nav-link {{$page=='approved-cases'?'active':''}}">
               <i class="nav-icon fas fa-check-double text-success"></i>
               <p>
                 Approved Cases
@@ -151,10 +151,19 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ route('student_declined_cases') }}" class="nav-link">
+            <a href="{{ route('student_declined_cases') }}" class="nav-link {{$page=='declined-cases'?'active':''}}">
               <i class="nav-icon fas fa-times text-danger"></i>
               <p>
                 Declined Cases
+                <!-- <span class="right badge badge-danger">New</span> -->
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{ route('std-meetings') }}" class="nav-link {{$page=='meetings'?'active':''}}">
+              <i class="nav-icon fas fa-video text-info"></i>
+              <p>
+                Meetings
                 <!-- <span class="right badge badge-danger">New</span> -->
               </p>
             </a>

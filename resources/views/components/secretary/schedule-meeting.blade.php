@@ -138,14 +138,23 @@
                       <a href="{{url()->previous()}}" class="btn btn-block bg-gradient-warning " ><i class="fa fa-arrow-left mr-1"></i> Back</a>
                     </div>
                       <div class="col-lg-3 mb-0">
-                      <input type="button" name="link-btn" value="Generate Meeting Link" class="btn bg-gradient-info btn-block" onclick="generateLink('{{$case['case_id']}}')">;
+                      <!-- <a href="{{route('generate-meeting', ['case'=>$case])}}" type="button" name="link-btn" class="btn bg-gradient-info btn-block">Generate Meeting Link</a>; -->
+                      <input type="button" name="link-btn" value="Generate Meeting Link" class="btn bg-gradient-info btn-block" onclick="generateLink('{{$case['case_id']}}','{{$case['type']}}')"/>
                     </div>
                   </div>
-                  <div class="row">
+                  <div class="row mt-2">
                     <div class="col" id="meetingtimeerror" style="display: none;">
                       <div class="alert alert-dismissible alert-warning" style="height: 50px;">
                       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                       <p class="message"><i class="icon fas fa-times"></i> Please Enter valid meeting schedule Date, Time and Duration.</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row mt-2">
+                    <div class="col" id="meetingdurationerror" style="display: none;">
+                      <div class="alert alert-dismissible alert-warning" style="height: 50px;">
+                      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                      <p class="message"><i class="icon fas fa-times"></i> Invalid Duration Range, Duration cannot exceed 40 minutes.</p>
                       </div>
                     </div>
                   </div>
@@ -160,7 +169,9 @@
                     <div id="meeting-id">Meeting ID: <strong>189 90898 989</strong></div>
                     <div id="meeting-pass">Meeting Password: <strong>*******</strong></div>
                     <div id="meeting-time">Date & Time: <strong>{{date('F d, Y h:i:s A', time())}}</strong></div>
-                    <div id="selected-files">Invitation Link <strong>LINK URL</strong></div>
+                    <div id="meeting-duration">Duration <strong>LINK URL</strong></div>
+                    <div id="meeting-topic">Topic <strong>LINK URL</strong></div>
+                    <div id="meeting-status">Topic <strong>LINK URL</strong></div>
                     <hr>
                     <!-- <strong><div id="nof"><h3>Meeting Parcip</h3></div></strong> -->
                     <div id="meeting-link">Invitation Link: <strong>LINK URL</strong></div>

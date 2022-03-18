@@ -134,7 +134,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link {{$page=='scheduled-meeting'?'active':''}}">
+            <a href="{{ route('jury-meetings') }}" class="nav-link {{$page=='meetings'?'active':''}}">
               <i class="nav-icon fas fa-video"></i>
               <p>
                 Scheduled Meetings

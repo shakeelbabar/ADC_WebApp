@@ -135,14 +135,22 @@
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link {{$page=='schedule-meeting'?'active':''}}">
-              <i class="nav-icon fas fa-video"></i>
+              <i class="nav-icon fas fa-clock"></i>
               <p>
                 Schedule Meeting
                 <!-- <span class="right badge badge-danger">New</span> -->
               </p>
             </a>
           </li>
-
+          <li class="nav-item">
+            <a href="{{ route('sec-meetings') }}" class="nav-link {{$page=='meetings'?'active':''}}">
+              <i class="nav-icon fas fa-video"></i>
+              <p>
+                Meetings
+                <!-- <span class="right badge badge-danger">New</span> -->
+              </p>
+            </a>
+          </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

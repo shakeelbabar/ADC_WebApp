@@ -114,7 +114,7 @@
                           <!-- </pre> -->
                         @if(Auth::user()->hasRole('secretary'))
                           <td class="text-right">
-                              <a href="{{route('meetings', ['case'=>$case])}}" type="button" class="btn bg-gradient-info btn-sm mr-2" style="width: 130px" >Schedule Meeting</a>
+                              <a href="{{route('schedule-meeting', ['case'=>$case])}}" type="button" class="btn bg-gradient-info btn-sm mr-2" style="width: 130px" >Schedule Meeting</a>
                           </td>
                         @endif
                       </tr>

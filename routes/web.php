@@ -54,6 +54,7 @@ Route::group(['middleware' => ['auth', 'role:student']], function(){
     Route::get('requestCancel', [CaseRegistrationController::class, 'requestCancel'])->name('requestCance');
     Route::get('student_approved_cases', [CaseManagementController::class, 'approvedCases'])->name('student_approved_cases');
     Route::get('student_declined_cases', [CaseManagementController::class, 'declinedCases'])->name('student_declined_cases');
+    Route::get('std-meetings',[VirtualMeetingController::class, 'getMeetings'])->name('std-meetings');
     // Route::get('requestCancel', [CaseRegistrationController::class, 'requestCancel'])->name('requestCancel1');
 });
 
@@ -62,7 +63,9 @@ Route::group(['middleware'=>['auth', 'role:secretary']], function(){
     Route::get('adc-approved-cases', [CaseManagementController::class, 'approvedCases'])->name('adc-approved-cases');
     Route::get('adc-declined-cases', [CaseManagementController::class, 'declinedCases'])->name('adc-declined-cases');
     Route::get('forward-to-adc', [CaseManagementController::class, 'forwardToADC'])->name('forward-to-adc');
-    Route::get('meetings', [VirtualMeetingController::class, 'scheduleMeeting'])->name('meetings');
+    Route::get('schedule-meeting', [VirtualMeetingController::class, 'scheduleMeeting'])->name('schedule-meeting');
+    Route::get('sec-meetings',[VirtualMeetingController::class, 'getMeetings'])->name('sec-meetings');
+    Route::get('generate-meeting', [VirtualMeetingController::class, 'generateMeeting'])->name('generate-meeting');
 });
 
 // Only for Jury
@@ -71,6 +74,7 @@ Route::group(['middleware'=>['auth', 'role:jury']], function(){
     Route::get('decline-case', [CaseManagementController::class, 'declineCase'])->name('decline-case');
     Route::get('approved-cases', [CaseManagementController::class, 'approvedCases'])->name('approved-cases');
     Route::get('declined-cases', [CaseManagementController::class, 'declinedCases'])->name('declined-cases');
+    Route::get('jury-meetings',[VirtualMeetingController::class, 'getMeetings'])->name('jury-meetings');
 });
 
 

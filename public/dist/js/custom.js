@@ -201,9 +201,9 @@ function approveCase(case_id){
     });
 }
 
-function generateLink(case_id){
-    console.log(case_id);
-    var datetime = new Date($('#meetingdatetime').val());
+function generateLink(case_id, case_type){
+    var datetime = (new Date($('#meetingdatetime').val()));
+    datetime = datetime.toLocaleString();
     var duration = $('#meetingduration').val();
     if($('#meetingdatetime').val()=="" || $('#meetingduration').val()== ""){
         $('#meetingtimeerror').fadeIn("slow", function(){
@@ -211,13 +211,50 @@ function generateLink(case_id){
                 $('#meetingtimeerror').fadeOut("slow");
             }, 2000);
         });
+    }else if($('#meetingduration').val()<=0 ||  $('#meetingduration').val()>40){
+        $('#meetingdurationerror').fadeIn("slow", function(){
+            setTimeout(function(){
+                $('#meetingdurationerror').fadeOut("slow");
+            }, 2000);
+        });
     }else{
         // console.log(datetime.toISOString());  // 2021-11-15T13:13:00.000Z
         // console.log(datetime.toUTCString());  // Mon, 15 Nov 2021 13:13:00 GMT
         // console.log(datetime.toTimeString()); // 18:13:00 GMT+0500 (Pakistan Standard Time)
         // console.log(datetime.toDateString()); // Mon Nov 15 2021
-
-        console.log(duration);
+        // console.log(datetime);
+        // console.log(duration);
+        
+        const meeting_creds = {
+            case_id: case_id,
+            topic: case_type+" Case with ID "+case_id+" ADC Trail Meeting.",
+            start_time: datetime,
+            duration: duration,
+        };
+        
+        jQuery.ajax({
+            url:'/generate-meeting',
+            type:'get',
+            data:meeting_creds,
+            success:function(result){
+                // console.log(JSON.parse(result));
+                //console.log("after");
+                result = JSON.parse(result);
+                // console.log(result);
+                var st = new Date(result.start_time);
+                st.setHours(st.getHours()-7);
+                // console.log(st.toDateString()+ " "+ st.toTimeString());
+                // var start_time = new Date(result.start_time);
+                // var start_time = moment(new Date(result.start_time)).format('YYYY-MM-DD HH:MM:SS');
+                $('#meeting-link').html('<strong><a href="'+result.join_url+'" id="meeting-link">'+result.join_url+'</a></strong>')
+                $('#meeting-id').html('Meeting ID: <strong>'+result.meeting_id+'</strong>')
+                $('#meeting-pass').html('Meeting Password: <strong>'+result.password+'</strong>')
+                $('#meeting-time').html('Start Time: <strong>'+st.toUTCString()+'</strong>')
+                $('#meeting-duration').html('Duration: <strong>'+result.duration+'</strong>')
+                $('#meeting-topic').html('Topic: <strong>'+result.topic+'</strong>')
+                $('#meeting-status').html('Status: <strong>'+result.status+'</strong>')
+            }
+        });
     }
 }
 
